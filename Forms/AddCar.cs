@@ -4,6 +4,7 @@ using dataGridView.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace dataGridView.Forms
             {
                 targetCar = new CarModel
                 {
-                    Id = sourceCar.Id,
                     CarMake = sourceCar.CarMake,
                     AutoNumber = sourceCar.AutoNumber,
                     Mileage = sourceCar.Mileage,
@@ -39,7 +39,6 @@ namespace dataGridView.Forms
             {
                 targetCar = new CarModel
                 {
-                    Id = Guid.NewGuid(),
                     CarMake = CarMake.Unknow,
                     AutoNumber = "0",
                     Mileage = 0,
@@ -57,7 +56,45 @@ namespace dataGridView.Forms
             numericUpDownCurrentFuelVolume.AddBinding(x => x.Value, targetCar, x => x.CurrentFuelVolume);
             numericUpDownRentCostPerMinute.AddBinding(x => x.Value, targetCar, x => x.RentCostPerMinute);
         }
-            public CarModel CurrentCar => targetCar;
+        public CarModel CurrentCar => targetCar;
 
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            var context = new ValidationContext(targetCar);
+            var results = new List<ValidationResult>();
+
+            bool isValid = Validator.TryValidateObject(targetCar, context, results, true);
+
+            if (isValid)
+            {
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+
+            else
+            {
+                foreach (var validationResult in results)
+                {
+                    foreach (var memberName in validationResult.MemberNames)
+                    {
+                        Control? control = memberName switch
+                        {
+                            nameof(CarModel.CarMake) => comboBoxMakeCar,
+                            nameof(CarModel.AutoNumber) => textBoxNumber,
+                            nameof(CarModel.Mileage) => numericUpDownMileage,
+                            nameof(CarModel.FuelConsumption) => numericUpDownFuelConsumption,
+                            nameof(CarModel.RentCostPerMinute) => numericUpDownRentCostPerMinute,
+                            _ => null
+                        };
+
+                        //if (control != null)
+                        //{
+                        //    errorProvider.SetError(control, validationResult.ErrorMessage);
+                        //}
+                    }
+                }
+            }
+        }
     }
 }
+

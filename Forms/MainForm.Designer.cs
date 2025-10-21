@@ -35,6 +35,14 @@
             toolStripMenu = new ToolStrip();
             toolStripButtonProperties = new ToolStripButton();
             dataGridViewCar = new DataGridView();
+            CarMakeCol = new DataGridViewComboBoxColumn();
+            AutoNumberCol = new DataGridViewTextBoxColumn();
+            MileageCol = new DataGridViewTextBoxColumn();
+            FuelConsumptionCol = new DataGridViewTextBoxColumn();
+            CurrentFuelVolumeCol = new DataGridViewTextBoxColumn();
+            RentCostPerMinuteCol = new DataGridViewTextBoxColumn();
+            FuelReserveHoursCol = new DataGridViewTextBoxColumn();
+            RentAmountCol = new DataGridViewTextBoxColumn();
             statusStripAuto.SuspendLayout();
             toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewCar).BeginInit();
@@ -46,7 +54,7 @@
             statusStripAuto.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabelStatusCar });
             statusStripAuto.Location = new Point(0, 424);
             statusStripAuto.Name = "statusStripAuto";
-            statusStripAuto.Size = new Size(800, 26);
+            statusStripAuto.Size = new Size(1218, 26);
             statusStripAuto.TabIndex = 0;
             statusStripAuto.Text = "statusStrip1";
             // 
@@ -69,7 +77,7 @@
             toolStripMenu.Items.AddRange(new ToolStripItem[] { toolStripButtonProperties });
             toolStripMenu.Location = new Point(0, 0);
             toolStripMenu.Name = "toolStripMenu";
-            toolStripMenu.Size = new Size(800, 27);
+            toolStripMenu.Size = new Size(1218, 27);
             toolStripMenu.TabIndex = 1;
             toolStripMenu.Text = "toolStrip1";
             // 
@@ -85,22 +93,75 @@
             // 
             // dataGridViewCar
             // 
+            dataGridViewCar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCar.BackgroundColor = Color.SlateGray;
             dataGridViewCar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCar.Columns.AddRange(new DataGridViewColumn[] { CarMakeCol, AutoNumberCol, MileageCol, FuelConsumptionCol, CurrentFuelVolumeCol, RentCostPerMinuteCol, FuelReserveHoursCol, RentAmountCol });
             dataGridViewCar.Dock = DockStyle.Fill;
             dataGridViewCar.Location = new Point(0, 27);
             dataGridViewCar.Name = "dataGridViewCar";
             dataGridViewCar.RowHeadersWidth = 51;
-            dataGridViewCar.Size = new Size(800, 397);
+            dataGridViewCar.Size = new Size(1218, 397);
             dataGridViewCar.TabIndex = 2;
             dataGridViewCar.CellFormatting += dataGridViewCar_CellFormatting;
             dataGridViewCar.CellPainting += dataGridViewCar_CellPainting;
+            // 
+            // CarMakeCol
+            // 
+            CarMakeCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+            CarMakeCol.HeaderText = "Марка автомобиля";
+            CarMakeCol.MinimumWidth = 6;
+            CarMakeCol.Name = "CarMakeCol";
+            CarMakeCol.Resizable = DataGridViewTriState.True;
+            CarMakeCol.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // AutoNumberCol
+            // 
+            AutoNumberCol.HeaderText = "Гос. номер";
+            AutoNumberCol.MinimumWidth = 6;
+            AutoNumberCol.Name = "AutoNumberCol";
+            // 
+            // MileageCol
+            // 
+            MileageCol.HeaderText = "Пробег";
+            MileageCol.MinimumWidth = 6;
+            MileageCol.Name = "MileageCol";
+            // 
+            // FuelConsumptionCol
+            // 
+            FuelConsumptionCol.HeaderText = "Средний расход топлива";
+            FuelConsumptionCol.MinimumWidth = 6;
+            FuelConsumptionCol.Name = "FuelConsumptionCol";
+            // 
+            // CurrentFuelVolumeCol
+            // 
+            CurrentFuelVolumeCol.HeaderText = "Текущий объем топлива";
+            CurrentFuelVolumeCol.MinimumWidth = 6;
+            CurrentFuelVolumeCol.Name = "CurrentFuelVolumeCol";
+            // 
+            // RentCostPerMinuteCol
+            // 
+            RentCostPerMinuteCol.HeaderText = "Стоимость аренды (мин)";
+            RentCostPerMinuteCol.MinimumWidth = 6;
+            RentCostPerMinuteCol.Name = "RentCostPerMinuteCol";
+            // 
+            // FuelReserveHoursCol
+            // 
+            FuelReserveHoursCol.HeaderText = "Запас хода (ч)";
+            FuelReserveHoursCol.MinimumWidth = 6;
+            FuelReserveHoursCol.Name = "FuelReserveHoursCol";
+            // 
+            // RentAmountCol
+            // 
+            RentAmountCol.HeaderText = "Сумма аренды";
+            RentAmountCol.MinimumWidth = 6;
+            RentAmountCol.Name = "RentAmountCol";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1218, 450);
             Controls.Add(dataGridViewCar);
             Controls.Add(toolStripMenu);
             Controls.Add(statusStripAuto);
@@ -127,5 +188,13 @@
         private ToolStripButton toolStripButtonProperties;
         private DataGridView dataGridViewCar;
         private ToolStripStatusLabel toolStripStatusLabelStatusCar;
+        private DataGridViewComboBoxColumn CarMakeCol;
+        private DataGridViewTextBoxColumn AutoNumberCol;
+        private DataGridViewTextBoxColumn MileageCol;
+        private DataGridViewTextBoxColumn FuelConsumptionCol;
+        private DataGridViewTextBoxColumn CurrentFuelVolumeCol;
+        private DataGridViewTextBoxColumn RentCostPerMinuteCol;
+        private DataGridViewTextBoxColumn FuelReserveHoursCol;
+        private DataGridViewTextBoxColumn RentAmountCol;
     }
 }

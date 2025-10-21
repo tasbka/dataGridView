@@ -9,7 +9,6 @@ namespace dataGridView.Models
 {
     public class CarModel
     {
-        public Guid Id {  get; set; }
 
         public CarMake CarMake { get; set; }
 

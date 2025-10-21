@@ -11,20 +11,32 @@ namespace dataGridView
 
         public MainForm()
         {
-            items = new List<CarModel>();
-            items.Add(new CarModel
+            InitializeComponent();
+
+            items = new List<CarModel>
+    {
+            new CarModel
             {
-                Id = Guid.NewGuid(),
                 CarMake = CarMake.Lada,
                 AutoNumber = "LO123L",
                 Mileage = 12.1,
-                FuelConsumption = 1212.1,
+                FuelConsumption = 12.1,
                 CurrentFuelVolume = 12,
-                RentCostPerMinute = 1,
-            });
+                RentCostPerMinute = 1
 
-            InitializeComponent();
+            }
+            };
+
+            CarMakeCol.DataPropertyName = nameof(CarModel.CarMake);
+            AutoNumberCol.DataPropertyName = nameof(CarModel.AutoNumber);
+            MileageCol.DataPropertyName = nameof(CarModel.Mileage);
+            FuelConsumptionCol.DataPropertyName = nameof(CarModel.FuelConsumption);
+            CurrentFuelVolumeCol.DataPropertyName = nameof(CarModel.CurrentFuelVolume);
+            RentCostPerMinuteCol.DataPropertyName = nameof(CarModel.RentCostPerMinute);
+            FuelReserveHoursCol.DataPropertyName = nameof(CarModel.FuelReserveHours);
+            RentAmountCol.DataPropertyName = nameof(CarModel.RentAmount);
             dataGridViewCar.AutoGenerateColumns = false;
+            CarMakeCol.DataSource = Enum.GetValues(typeof(CarMake));
 
             bindingSource.DataSource = items;
             dataGridViewCar.DataSource = bindingSource;
@@ -86,7 +98,15 @@ namespace dataGridView
             {
                 items.Add(add.CurrentCar);
                 bindingSource.ResetBindings(false);
+                MessageBox.Show("Автомобиль успешно добавлен!");
             }
+        }
+
+        private void SetStatistic()
+        {
+            //LabelQuantity.Text = $"Количество товаров: {products.Count}";
+            //LabelPriceWithVAT.Text = $"Общая сумма товаров на складе(С НДС): {products.Sum(x => x.TotalPriceWithVAT):F2} ₽";
+            //LabelPriceWithoutVat.Text = $"Общая сумма товаров на складе(БЕЗ НДС): {products.Sum(x => x.TotalPriceWithoutVAT):F2} ₽";
         }
     }
 }
