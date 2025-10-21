@@ -72,22 +72,7 @@ namespace dataGridView
 
         private void dataGridViewCar_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            //if (e.ColumnIndex < 0 || e.RowIndex < 0)
-            //{
-            //    return;
-            //}
 
-            //var col = dataGridViewCar.Columns[e.ColumnIndex];
-            //var colName = col.Name;
-            //if (colName != nameof(AvgRateColumn))
-
-            //    var car = (CarModel)dataGridViewCar.Rows[e.RowIndex].DataBoundItem;
-            //var graphics = e.Graphics;
-
-            //var rect = e.CellBounds;
-            //e.PaintBackground(rect, false);
-
-            //var width = rect.Width * (car.AvgRate);
         }
 
         private void toolStripButtonProperties_Click(object sender, EventArgs e)
@@ -104,9 +89,7 @@ namespace dataGridView
 
         private void SetStatistic()
         {
-            //LabelQuantity.Text = $"Количество товаров: {products.Count}";
-            //LabelPriceWithVAT.Text = $"Общая сумма товаров на складе(С НДС): {products.Sum(x => x.TotalPriceWithVAT):F2} ₽";
-            //LabelPriceWithoutVat.Text = $"Общая сумма товаров на складе(БЕЗ НДС): {products.Sum(x => x.TotalPriceWithoutVAT):F2} ₽";
+
         }
     }
 }
