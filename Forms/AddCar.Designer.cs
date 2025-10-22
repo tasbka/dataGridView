@@ -207,6 +207,8 @@
             Controls.Add(panel1);
             Controls.Add(buttonSave);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "AddCar";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Добавить автомобиль";

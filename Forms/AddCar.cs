@@ -65,7 +65,7 @@ namespace dataGridView.Forms
         /// </summary>
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            errorProviderError.Clear();
+            errorProvider.Clear();
 
             var context = new ValidationContext(targetCar);
             var results = new List<ValidationResult>();
@@ -94,12 +94,14 @@ namespace dataGridView.Forms
                             _ => null
                         };
 
-                        if (control != null) // Разкомментируйте этот блок
+                        if (control != null)
                         {
                             errorProvider.SetError(control, validationResult.ErrorMessage);
                         }
                     }
                 }
+                MessageBox.Show("Пожалуйста, исправьте ошибки в форме перед сохранением.",
+               "Ошибки валидации", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

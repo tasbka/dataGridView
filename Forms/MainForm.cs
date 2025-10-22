@@ -33,8 +33,8 @@ namespace dataGridView
                 CarMake = CarMake.Lada,
                 AutoNumber = "ЛО123Л",
                 Mileage = 300,
-                FuelConsumption = 5,
-                CurrentFuelVolume = 50,
+                FuelConsumption = 50,
+                CurrentFuelVolume = 5,
                 RentCostPerMinute = 120
 
             });

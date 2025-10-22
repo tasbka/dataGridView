@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             statusStripAuto = new StatusStrip();
             toolStripStatusLabelCount = new ToolStripStatusLabel();
             toolStripStatusLabelStatusCar = new ToolStripStatusLabel();
@@ -62,19 +61,21 @@
             // 
             // toolStripStatusLabelCount
             // 
+            toolStripStatusLabelCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             toolStripStatusLabelCount.Name = "toolStripStatusLabelCount";
-            toolStripStatusLabelCount.Size = new Size(191, 20);
+            toolStripStatusLabelCount.Size = new Size(201, 20);
             toolStripStatusLabelCount.Text = "Количество автомобилей:";
             // 
             // toolStripStatusLabelStatusCar
             // 
+            toolStripStatusLabelStatusCar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             toolStripStatusLabelStatusCar.Name = "toolStripStatusLabelStatusCar";
-            toolStripStatusLabelStatusCar.Size = new Size(408, 20);
+            toolStripStatusLabelStatusCar.Size = new Size(424, 20);
             toolStripStatusLabelStatusCar.Text = "автомобилей с критически низким уровнем запаса хода:";
             // 
             // toolStripMenu
             // 
-            toolStripMenu.BackColor = SystemColors.ActiveCaption;
+            toolStripMenu.BackColor = Color.LightBlue;
             toolStripMenu.ImageScalingSize = new Size(20, 20);
             toolStripMenu.Items.AddRange(new ToolStripItem[] { toolStripButtonProperties, toolStripButtonEdit, toolStripButtonDel });
             toolStripMenu.Location = new Point(0, 0);
@@ -86,7 +87,7 @@
             // toolStripButtonProperties
             // 
             toolStripButtonProperties.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButtonProperties.Image = (Image)resources.GetObject("toolStripButtonProperties.Image");
+            toolStripButtonProperties.Image = Properties.Resources.добавить;
             toolStripButtonProperties.ImageTransparentColor = Color.Magenta;
             toolStripButtonProperties.Name = "toolStripButtonProperties";
             toolStripButtonProperties.Size = new Size(29, 24);
@@ -96,7 +97,7 @@
             // toolStripButtonEdit
             // 
             toolStripButtonEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButtonEdit.Image = (Image)resources.GetObject("toolStripButtonEdit.Image");
+            toolStripButtonEdit.Image = Properties.Resources.редактировать;
             toolStripButtonEdit.ImageTransparentColor = Color.Magenta;
             toolStripButtonEdit.Name = "toolStripButtonEdit";
             toolStripButtonEdit.Size = new Size(29, 24);
@@ -106,7 +107,7 @@
             // toolStripButtonDel
             // 
             toolStripButtonDel.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButtonDel.Image = (Image)resources.GetObject("toolStripButtonDel.Image");
+            toolStripButtonDel.Image = Properties.Resources.удалить;
             toolStripButtonDel.ImageTransparentColor = Color.Magenta;
             toolStripButtonDel.Name = "toolStripButtonDel";
             toolStripButtonDel.Size = new Size(29, 24);
@@ -116,10 +117,11 @@
             // dataGridViewCar
             // 
             dataGridViewCar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCar.BackgroundColor = Color.SlateGray;
+            dataGridViewCar.BackgroundColor = Color.LightBlue;
             dataGridViewCar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCar.Columns.AddRange(new DataGridViewColumn[] { CarMakeCol, AutoNumberCol, MileageCol, FuelConsumptionCol, CurrentFuelVolumeCol, RentCostPerMinuteCol, FuelReserveHoursCol, RentAmountCol });
             dataGridViewCar.Dock = DockStyle.Fill;
+            dataGridViewCar.GridColor = SystemColors.WindowText;
             dataGridViewCar.Location = new Point(0, 27);
             dataGridViewCar.Name = "dataGridViewCar";
             dataGridViewCar.RowHeadersWidth = 51;

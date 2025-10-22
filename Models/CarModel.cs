@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using dataGridView.Models;
 
 namespace dataGridView.Models
 {
@@ -34,7 +33,8 @@ namespace dataGridView.Models
         [Required(ErrorMessage = "{0} обязателен для заполнения")]
         [StringLength(AppConstants.AutoNumberMaxLength, MinimumLength = AppConstants.AutoNumberMinLength,
             ErrorMessage = "{0} должен быть от {2} до {1} символов")]
-        [RegularExpression(@"^[А-ЯЁ0-9]+$", ErrorMessage = "{0} должен содержать только русские буквы и цифры")]
+        [RegularExpression(@"^[А-ЯЁ]{2}\d{3}[А-ЯЁ]{1}$",
+        ErrorMessage = "{0} должен быть в формате: АЛ123В (2 буквы-3 цифры-1 буква)")]
         public string AutoNumber { get; set; } = string.Empty;
 
 

@@ -28,12 +28,12 @@ namespace dataGridView.App.Infrostructure
             if (existing != null)
                 control.DataBindings.Remove(existing);
 
-            var binding = new Binding(controlPropName, source, sourcePropName)
+            var binding = new Binding(controlPropName, source, sourcePropName, true)
             {
                 DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged
             };
 
-            control.DataBindings.Add(controlPropName, source, sourcePropName);
+            control.DataBindings.Add(binding);
 
             if (errorProvider != null)
             {
@@ -56,17 +56,9 @@ namespace dataGridView.App.Infrostructure
             if (sourcePropertyInfo == null)
                 return;
 
-            // Подписываемся на события валидации
             control.Validating += (sender, e) =>
             {
                 ValidateControl(control, source, sourcePropertyName, errorProvider);
-            };
-
-            // Также валидируем при изменении значения
-            control.Validated += (sender, e) =>
-            {
-                // Можно очистить ошибку при успешной валидации
-                // или оставить для отображения в реальном времени
             };
         }
 
@@ -88,17 +80,13 @@ namespace dataGridView.App.Infrostructure
             var context = new ValidationContext(source) { MemberName = sourcePropertyName };
             var results = new List<ValidationResult>();
 
-            // Получаем значение свойства
             var propertyValue = sourcePropertyInfo.GetValue(source);
 
-            // Проверяем валидность
             bool isValid = Validator.TryValidateProperty(propertyValue, context, results);
 
             if (!isValid && results.Count > 0)
             {
                 errorProvider.SetError(control, results[0].ErrorMessage);
-                // Если нужно предотвратить потерю фокуса при ошибке:
-                // control.CausesValidation = true;
             }
             else
             {
