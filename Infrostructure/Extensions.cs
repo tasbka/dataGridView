@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace dataGridView.App.Infrostructure
 {
+    //Статический класс расширений для работы с привязкой данных и валидацией в Windows Forms
     public static class Extensions
     {
+        /// <summary>
+        /// Создает двухстороннюю привязку данных между свойством элемента управления и свойством модели данных
+        /// </summary>
         public static void AddBinding<TControl, TSource>(
             this TControl control,
             Expression<Func<TControl, object>> destinationProperty,

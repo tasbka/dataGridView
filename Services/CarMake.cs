@@ -1,19 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace dataGridView.Services
+﻿namespace dataGridView.Services
 {
     public enum CarMake: byte
     {
-        Unknow = 0, //Неизвестно
+        /// <summary>
+        /// Неизвестно
+        /// </summary>
+        Unknow = 0,
 
-        Hyundai = 1,//Хёндай Сорярис
+        /// <summary>
+        /// Хёндай Сорярис
+        /// </summary>
+        Hyundai = 1,
 
-        Lada = 2,//Лада Гранда
+        /// <summary>
+        /// Лада Гранда
+        /// </summary>
+        Lada = 2,//
 
-        Mitsubishi = 3//Митсубиси Аутлендер
+        /// <summary>
+        /// Митсубиси Аутлендер
+        /// </summary>
+        Mitsubishi = 3
     }
 }

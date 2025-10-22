@@ -70,7 +70,7 @@ namespace dataGridView.Forms
             var context = new ValidationContext(targetCar);
             var results = new List<ValidationResult>();
 
-            bool isValid = Validator.TryValidateObject(targetCar, context, results, true);
+            var isValid = Validator.TryValidateObject(targetCar, context, results, true);
 
             if (isValid)
             {
