@@ -53,7 +53,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.BackColor = Color.SlateGray;
+            buttonSave.BackColor = Color.LightSkyBlue;
             buttonSave.Dock = DockStyle.Bottom;
             buttonSave.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
             buttonSave.ForeColor = SystemColors.ButtonHighlight;
@@ -67,7 +67,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.SlateGray;
+            panel1.BackColor = Color.LightSkyBlue;
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
