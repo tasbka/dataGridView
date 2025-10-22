@@ -17,49 +17,56 @@ namespace dataGridView.Forms
     public partial class AddCar : Form
     {
         private readonly CarModel targetCar;
+        private readonly ErrorProvider errorProvider = new ErrorProvider();
+
         public AddCar(CarModel? sourceCar = null)
         {
             InitializeComponent();
 
             if (sourceCar != null)
             {
-                targetCar = new CarModel
-                {
-                    CarMake = sourceCar.CarMake,
-                    AutoNumber = sourceCar.AutoNumber,
-                    Mileage = sourceCar.Mileage,
-                    FuelConsumption = sourceCar.FuelConsumption,
-                    CurrentFuelVolume = sourceCar.CurrentFuelVolume,
-                    RentCostPerMinute = sourceCar.RentCostPerMinute,
-                };
-
+                targetCar = sourceCar.Clone();
                 buttonSave.Text = "Сохранить";
+                Text = "Редактирование автомобиля";
             }
             else
             {
-                targetCar = new CarModel
-                {
-                    CarMake = CarMake.Unknow,
-                    AutoNumber = "0",
-                    Mileage = 0,
-                    FuelConsumption = 0,
-                    CurrentFuelVolume = 0,
-                    RentCostPerMinute = 0,
-                };
+                targetCar = new CarModel();
+                buttonSave.Text = "Добавить";
+                Text = "Добавить Авто";
             }
 
             comboBoxMakeCar.DataSource = Enum.GetValues(typeof(CarMake));
+
             comboBoxMakeCar.AddBinding(x => x.SelectedItem!, targetCar, x => x.CarMake);
             textBoxNumber.AddBinding(x => x.Text, targetCar, x => x.AutoNumber);
             numericUpDownMileage.AddBinding(x => x.Value, targetCar, x => x.Mileage);
             numericUpDownFuelConsumption.AddBinding(x => x.Value, targetCar, x => x.FuelConsumption);
             numericUpDownCurrentFuelVolume.AddBinding(x => x.Value, targetCar, x => x.CurrentFuelVolume);
             numericUpDownRentCostPerMinute.AddBinding(x => x.Value, targetCar, x => x.RentCostPerMinute);
+
+            ConfigureErrorProvider();
         }
+
+        private void ConfigureErrorProvider()
+        {
+            errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            errorProvider.ContainerControl = this;
+        }
+
+        /// <summary>
+        /// Текущий авто
+        /// </summary>
         public CarModel CurrentCar => targetCar;
 
+
+        /// <summary>
+        /// Метод обработки клика кнопки "Добавить" или "Сохранить"
+        /// </summary>
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            errorProviderError.Clear();
+
             var context = new ValidationContext(targetCar);
             var results = new List<ValidationResult>();
 
@@ -87,10 +94,10 @@ namespace dataGridView.Forms
                             _ => null
                         };
 
-                        //if (control != null)
-                        //{
-                        //    errorProvider.SetError(control, validationResult.ErrorMessage);
-                        //}
+                        if (control != null) // Разкомментируйте этот блок
+                        {
+                            errorProvider.SetError(control, validationResult.ErrorMessage);
+                        }
                     }
                 }
             }

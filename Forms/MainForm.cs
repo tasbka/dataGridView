@@ -1,6 +1,7 @@
 ﻿using dataGridView.Models;
 using dataGridView.Forms;
 using dataGridView.Services;
+using System.Windows.Forms;
 
 namespace dataGridView
 {
@@ -13,19 +14,44 @@ namespace dataGridView
         {
             InitializeComponent();
 
-            items = new List<CarModel>
-    {
-            new CarModel
+            items = new List<CarModel>();
+            items.Add(new CarModel
             {
-                CarMake = CarMake.Lada,
-                AutoNumber = "LO123L",
-                Mileage = 12.1,
-                FuelConsumption = 12.1,
-                CurrentFuelVolume = 12,
-                RentCostPerMinute = 1
+                Id = Guid.NewGuid(),
+                CarMake = CarMake.Hyundai,
+                AutoNumber = "КЕ123К",
+                Mileage = 100,
+                FuelConsumption = 50,
+                CurrentFuelVolume = 100,
+                RentCostPerMinute = 100
 
-            }
-            };
+            });
+
+            items.Add(new CarModel
+            {
+                Id = Guid.NewGuid(),
+                CarMake = CarMake.Lada,
+                AutoNumber = "ЛО123Л",
+                Mileage = 300,
+                FuelConsumption = 5,
+                CurrentFuelVolume = 50,
+                RentCostPerMinute = 120
+
+            });
+
+            items.Add(new CarModel
+            {
+                Id = Guid.NewGuid(),
+                CarMake = CarMake.Mitsubishi,
+                AutoNumber = "ЛО123Х",
+                Mileage = 150,
+                FuelConsumption = 40,
+                CurrentFuelVolume = 100,
+                RentCostPerMinute = 90
+
+            });
+
+            SetStatistic();
 
             CarMakeCol.DataPropertyName = nameof(CarModel.CarMake);
             AutoNumberCol.DataPropertyName = nameof(CarModel.AutoNumber);
@@ -35,6 +61,7 @@ namespace dataGridView
             RentCostPerMinuteCol.DataPropertyName = nameof(CarModel.RentCostPerMinute);
             FuelReserveHoursCol.DataPropertyName = nameof(CarModel.FuelReserveHours);
             RentAmountCol.DataPropertyName = nameof(CarModel.RentAmount);
+
             dataGridViewCar.AutoGenerateColumns = false;
             CarMakeCol.DataSource = Enum.GetValues(typeof(CarMake));
 
@@ -42,6 +69,9 @@ namespace dataGridView
             dataGridViewCar.DataSource = bindingSource;
         }
 
+        /// <summary>
+        /// Обработчик события форматирования ячеек DataGridView
+        /// </summary>
         private void dataGridViewCar_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var col = dataGridViewCar.Columns[e.ColumnIndex];
@@ -70,11 +100,9 @@ namespace dataGridView
             }
         }
 
-        private void dataGridViewCar_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Обработчик нажатия кнопки Добавить товар
+        /// </summary>
         private void toolStripButtonProperties_Click(object sender, EventArgs e)
         {
             var add = new AddCar();
@@ -84,12 +112,82 @@ namespace dataGridView
                 items.Add(add.CurrentCar);
                 bindingSource.ResetBindings(false);
                 MessageBox.Show("Автомобиль успешно добавлен!");
+                OnUpdate();
             }
         }
 
+        /// <summary>
+        /// Метод обновоения общих данных о товарах
+        /// </summary>
         private void SetStatistic()
         {
+            var lowFuelCars = items.Count(car => car.CurrentFuelVolume < 7);
+            toolStripStatusLabelStatusCar.Text = $"Автомобили с критически низким уровнем запаса хода: {lowFuelCars}";
+            toolStripStatusLabelCount.Text = $"Количество автомобилей: {items.Count}";
+        }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки Редактировать товар
+        /// </summary>
+        private void toolStripButtonEdit_Click(object sender, EventArgs e)
+        {
+             if (dataGridViewCar.SelectedRows.Count == 0)
+             {
+                MessageBox.Show("Выберите автомобиль для редактирования!", "Внимание",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+             }
+
+            var selectedCar = (CarModel)dataGridViewCar.SelectedRows[0].DataBoundItem;
+            var selectedIndex = items.IndexOf(selectedCar);
+
+            var editForm = new AddCar(selectedCar);
+            if (editForm.ShowDialog() == DialogResult.OK)
+            {
+                if (selectedIndex >= 0 && selectedIndex < items.Count)
+                {
+                    items[selectedIndex] = editForm.CurrentCar;
+                    OnUpdate();
+                    MessageBox.Show("Автомобиль успешно обновлен!", "Успех",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик нажатия кнопки Удалить товар
+        /// </summary>
+        private void toolStripButtonDel_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewCar.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите автомобиль для удаления!", "Внимание",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var car = (CarModel)dataGridViewCar.SelectedRows[0].DataBoundItem;
+            var target = items.FirstOrDefault(x => x.Id == car.Id);
+            
+            if (target != null &&
+                MessageBox.Show($"Вы действительно желаете удалить автомобиль с номерами '{target.AutoNumber}'?",
+                "Удаление продукта",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                items.Remove(target);
+                OnUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Метод обновления всех данных на форме
+        /// </summary>
+        public void OnUpdate()
+        {
+            bindingSource.ResetBindings(false);
+            dataGridViewCar.Refresh();
+            SetStatistic();
         }
     }
 }

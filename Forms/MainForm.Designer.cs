@@ -30,10 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             statusStripAuto = new StatusStrip();
-            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripStatusLabelCount = new ToolStripStatusLabel();
             toolStripStatusLabelStatusCar = new ToolStripStatusLabel();
             toolStripMenu = new ToolStrip();
             toolStripButtonProperties = new ToolStripButton();
+            toolStripButtonEdit = new ToolStripButton();
+            toolStripButtonDel = new ToolStripButton();
             dataGridViewCar = new DataGridView();
             CarMakeCol = new DataGridViewComboBoxColumn();
             AutoNumberCol = new DataGridViewTextBoxColumn();
@@ -51,18 +53,18 @@
             // statusStripAuto
             // 
             statusStripAuto.ImageScalingSize = new Size(20, 20);
-            statusStripAuto.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabelStatusCar });
+            statusStripAuto.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelCount, toolStripStatusLabelStatusCar });
             statusStripAuto.Location = new Point(0, 424);
             statusStripAuto.Name = "statusStripAuto";
             statusStripAuto.Size = new Size(1218, 26);
             statusStripAuto.TabIndex = 0;
             statusStripAuto.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // toolStripStatusLabelCount
             // 
-            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(191, 20);
-            toolStripStatusLabel1.Text = "Количество автомобилей:";
+            toolStripStatusLabelCount.Name = "toolStripStatusLabelCount";
+            toolStripStatusLabelCount.Size = new Size(191, 20);
+            toolStripStatusLabelCount.Text = "Количество автомобилей:";
             // 
             // toolStripStatusLabelStatusCar
             // 
@@ -74,7 +76,7 @@
             // 
             toolStripMenu.BackColor = SystemColors.ActiveCaption;
             toolStripMenu.ImageScalingSize = new Size(20, 20);
-            toolStripMenu.Items.AddRange(new ToolStripItem[] { toolStripButtonProperties });
+            toolStripMenu.Items.AddRange(new ToolStripItem[] { toolStripButtonProperties, toolStripButtonEdit, toolStripButtonDel });
             toolStripMenu.Location = new Point(0, 0);
             toolStripMenu.Name = "toolStripMenu";
             toolStripMenu.Size = new Size(1218, 27);
@@ -91,6 +93,26 @@
             toolStripButtonProperties.Text = "toolStripButton1";
             toolStripButtonProperties.Click += toolStripButtonProperties_Click;
             // 
+            // toolStripButtonEdit
+            // 
+            toolStripButtonEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonEdit.Image = (Image)resources.GetObject("toolStripButtonEdit.Image");
+            toolStripButtonEdit.ImageTransparentColor = Color.Magenta;
+            toolStripButtonEdit.Name = "toolStripButtonEdit";
+            toolStripButtonEdit.Size = new Size(29, 24);
+            toolStripButtonEdit.Text = "toolStripButton1";
+            toolStripButtonEdit.Click += toolStripButtonEdit_Click;
+            // 
+            // toolStripButtonDel
+            // 
+            toolStripButtonDel.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonDel.Image = (Image)resources.GetObject("toolStripButtonDel.Image");
+            toolStripButtonDel.ImageTransparentColor = Color.Magenta;
+            toolStripButtonDel.Name = "toolStripButtonDel";
+            toolStripButtonDel.Size = new Size(29, 24);
+            toolStripButtonDel.Text = "toolStripButton2";
+            toolStripButtonDel.Click += toolStripButtonDel_Click;
+            // 
             // dataGridViewCar
             // 
             dataGridViewCar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -104,7 +126,6 @@
             dataGridViewCar.Size = new Size(1218, 397);
             dataGridViewCar.TabIndex = 2;
             dataGridViewCar.CellFormatting += dataGridViewCar_CellFormatting;
-            dataGridViewCar.CellPainting += dataGridViewCar_CellPainting;
             // 
             // CarMakeCol
             // 
@@ -183,7 +204,7 @@
         #endregion
 
         private StatusStrip statusStripAuto;
-        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripStatusLabel toolStripStatusLabelCount;
         private ToolStrip toolStripMenu;
         private ToolStripButton toolStripButtonProperties;
         private DataGridView dataGridViewCar;
@@ -196,5 +217,7 @@
         private DataGridViewTextBoxColumn RentCostPerMinuteCol;
         private DataGridViewTextBoxColumn FuelReserveHoursCol;
         private DataGridViewTextBoxColumn RentAmountCol;
+        private ToolStripButton toolStripButtonEdit;
+        private ToolStripButton toolStripButtonDel;
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             buttonSave = new Button();
             panel1 = new Panel();
             labelMakeCar = new Label();
@@ -42,10 +43,12 @@
             numericUpDownFuelConsumption = new NumericUpDown();
             numericUpDownCurrentFuelVolume = new NumericUpDown();
             numericUpDownRentCostPerMinute = new NumericUpDown();
+            errorProviderError = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)numericUpDownMileage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownFuelConsumption).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownCurrentFuelVolume).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownRentCostPerMinute).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProviderError).BeginInit();
             SuspendLayout();
             // 
             // buttonSave
@@ -179,10 +182,15 @@
             numericUpDownRentCostPerMinute.TabIndex = 18;
             numericUpDownRentCostPerMinute.TextAlign = HorizontalAlignment.Center;
             // 
+            // errorProviderError
+            // 
+            errorProviderError.ContainerControl = this;
+            // 
             // AddCar
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoValidate = AutoValidate.EnableAllowFocusChange;
             ClientSize = new Size(370, 483);
             Controls.Add(numericUpDownRentCostPerMinute);
             Controls.Add(numericUpDownCurrentFuelVolume);
@@ -206,6 +214,7 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDownFuelConsumption).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownCurrentFuelVolume).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownRentCostPerMinute).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProviderError).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -226,5 +235,6 @@
         private NumericUpDown numericUpDownFuelConsumption;
         private NumericUpDown numericUpDownCurrentFuelVolume;
         private NumericUpDown numericUpDownRentCostPerMinute;
+        private ErrorProvider errorProviderError;
     }
 }

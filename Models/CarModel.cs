@@ -1,45 +1,118 @@
 ﻿using dataGridView.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using dataGridView.Models;
 
 namespace dataGridView.Models
 {
+    /// <summary>
+    /// Модель авто
+    /// </summary>
     public class CarModel
     {
+        /// <summary>
+        /// Идентификатор продукта
+        /// </summary>
+        public Guid Id { get; set; } = Guid.NewGuid();
 
+        /// <summary>
+        /// Марка автомобиля
+        /// </summary>
+        /// [Display(Name = "Марка автомобиля")]
+        [Required(ErrorMessage = "{0} обязательна для выбора")]
+        [Range(1, 3, ErrorMessage = "{0} должна быть выбрана из списка")]
         public CarMake CarMake { get; set; }
 
+        /// <summary>
+        /// Государственный номер
+        /// </summary>
+        [Display(Name = "Государственный номер")]
+        [Required(ErrorMessage = "{0} обязателен для заполнения")]
+        [StringLength(AppConstants.AutoNumberMaxLength, MinimumLength = AppConstants.AutoNumberMinLength,
+            ErrorMessage = "{0} должен быть от {2} до {1} символов")]
+        [RegularExpression(@"^[А-ЯЁ0-9]+$", ErrorMessage = "{0} должен содержать только русские буквы и цифры")]
         public string AutoNumber { get; set; } = string.Empty;
 
+
+        /// <summary>
+        /// Пробег (км)
+        /// </summary>
+        [Display(Name = "Пробег автомобиля")]
+        [Range(AppConstants.MileageMin, AppConstants.MileageMax,
+            ErrorMessage = "{0} должен быть в диапазоне от {1} до {2} км")]
         public double Mileage { get; set; }
 
+        /// <summary>
+        /// Средний расход топлива (л/час)
+        /// </summary>
+        [Display(Name = "Средний расход топлива")]
+        [Range(AppConstants.FuelConsumptionMin, AppConstants.FuelConsumptionMax,
+            ErrorMessage = "{0} должен быть в диапазоне от {1} до {2} л/час")]
         public double FuelConsumption { get; set; }
 
+        /// <summary>
+        /// Текущий объем топлива (л)
+        /// </summary>
+        [Display(Name = "Текущий объем топлива")]
+        [Range(AppConstants.CurrentFuelVolumeMin, AppConstants.CurrentFuelVolumeMax,
+            ErrorMessage = "{0} должен быть в диапазоне от {1} до {2} литров")]
         public double CurrentFuelVolume { get; set; }
 
+        /// <summary>
+        /// Стоимость аренды (руб/мин)
+        /// </summary>
+        [Display(Name = "Стоимость аренды за минуту")]
+        [Range(AppConstants.RentCostPerMinuteMin, AppConstants.RentCostPerMinuteMax,
+            ErrorMessage = "{0} должна быть в диапазоне от {1} до {2} руб/мин")]
         public double RentCostPerMinute { get; set; }
 
+        /// <summary>
+        /// Запас хода по топливу (часы)
+        /// </summary>
+        [Display(Name = "Запас хода по топливу")]
         public double FuelReserveHours
         {
             get
             {
                 if (FuelConsumption <= 0)
                     return 0;
-                return CurrentFuelVolume / FuelConsumption;
+                return Math.Round(CurrentFuelVolume / FuelConsumption, 2);
             }
         }
 
+        /// <summary>
+        /// Сумма аренды до полного расхода топлива
+        /// </summary>
+        [Display(Name = "Сумма аренды")]
         public double RentAmount
         {
             get
             {
                 if (FuelConsumption <= 0)
                     return 0;
-                return FuelReserveHours * RentCostPerMinute;
+                return Math.Round(FuelReserveHours * 60 * RentCostPerMinute, 2);
             }
         }
+
+        /// <summary>
+        /// Создает копию объекта CarModel
+        /// </summary>
+        public CarModel Clone()
+        {
+            return new CarModel
+            {
+                CarMake = this.CarMake,
+                AutoNumber = this.AutoNumber,
+                Mileage = this.Mileage,
+                FuelConsumption = this.FuelConsumption,
+                CurrentFuelVolume = this.CurrentFuelVolume,
+                RentCostPerMinute = this.RentCostPerMinute
+            };
+        }
     }
+
 }
