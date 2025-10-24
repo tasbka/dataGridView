@@ -95,15 +95,7 @@ namespace dataGridView.Models
         /// </summary>
         public CarModel Clone()
         {
-            return new CarModel
-            {
-                CarMake = this.CarMake,
-                AutoNumber = this.AutoNumber,
-                Mileage = this.Mileage,
-                FuelConsumption = this.FuelConsumption,
-                CurrentFuelVolume = this.CurrentFuelVolume,
-                RentCostPerMinute = this.RentCostPerMinute
-            };
+          return (CarModel)this.MemberwiseClone();
         }
     }
 
