@@ -1,4 +1,4 @@
-﻿namespace dataGridView.Services
+﻿namespace dataGridView
 {
     internal class AppConstants
     {

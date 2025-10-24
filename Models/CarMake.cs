@@ -1,25 +1,28 @@
-﻿namespace dataGridView.Services
+﻿namespace dataGridView.Models
 {
-    public enum CarMake: byte
+    /// <summary>
+    /// Класс содержащий марки автомобиля
+    /// </summary>
+    public enum CarMake
     {
         /// <summary>
         /// Неизвестно
         /// </summary>
-        Unknow = 0,
+        Unknow,
 
         /// <summary>
         /// Хёндай Сорярис
         /// </summary>
-        Hyundai = 1,
+        Hyundai,
 
         /// <summary>
         /// Лада Гранда
         /// </summary>
-        Lada = 2,//
+        Lada,
 
         /// <summary>
         /// Митсубиси Аутлендер
         /// </summary>
-        Mitsubishi = 3
+        Mitsubishi
     }
 }

@@ -1,6 +1,5 @@
 ﻿using dataGridView.Models;
 using dataGridView.Forms;
-using dataGridView.Services;
 using System.Windows.Forms;
 
 namespace dataGridView
@@ -82,21 +81,13 @@ namespace dataGridView
 
             if (col.DataPropertyName == nameof(CarModel.CarMake))
             {
-                switch (car.CarMake)
+                e.Value = car.CarMake switch
                 {
-                    case CarMake.Lada:
-                        e.Value = "Лада Гранда";
-                        break;
-                    case CarMake.Mitsubishi:
-                        e.Value = "Митсубиси";
-                        break;
-                    case CarMake.Hyundai:
-                        e.Value = "Хёндай Сорялис";
-                        break;
-                    default:
-                        e.Value = CarMake.Unknow;
-                        break;
-                }
+                    CarMake.Lada => "Лада Веста",
+                    CarMake.Mitsubishi => "Митсубиси Аутлендер",
+                    CarMake.Hyundai => "Хёндай Крета",
+                    CarMake.Unknow or _ => "Неизвестно"
+                };
             }
         }
 
@@ -112,7 +103,6 @@ namespace dataGridView
                 items.Add(add.CurrentCar);
                 bindingSource.ResetBindings(false);
                 MessageBox.Show("Автомобиль успешно добавлен!");
-                OnUpdate();
             }
         }
 
@@ -138,19 +128,16 @@ namespace dataGridView
                 return;
              }
 
-            var selectedCar = (CarModel)dataGridViewCar.SelectedRows[0].DataBoundItem;
+            var selectedCar = (CarModel)dataGridViewCar.CurrentRow.DataBoundItem;
             var selectedIndex = items.IndexOf(selectedCar);
 
             var editForm = new AddCar(selectedCar);
             if (editForm.ShowDialog() == DialogResult.OK)
             {
-                if (selectedIndex >= 0 && selectedIndex < items.Count)
-                {
                     items[selectedIndex] = editForm.CurrentCar;
                     OnUpdate();
                     MessageBox.Show("Автомобиль успешно обновлен!", "Успех",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
             }
         }
 
@@ -166,17 +153,17 @@ namespace dataGridView
                 return;
             }
 
-            var car = (CarModel)dataGridViewCar.SelectedRows[0].DataBoundItem;
-            var target = items.FirstOrDefault(x => x.Id == car.Id);
-            
-            if (target != null &&
-                MessageBox.Show($"Вы действительно желаете удалить автомобиль с номерами '{target.AutoNumber}'?",
-                "Удаление продукта",
+            var car = (CarModel)dataGridViewCar.CurrentRow.DataBoundItem;
+
+            if (car != null &&
+                MessageBox.Show($"Вы действительно желаете удалить автомобиль с номером '{car.AutoNumber}'?",
+                "Удаление автомобиля",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                items.Remove(target);
+                items.Remove(car);
                 OnUpdate();
+                MessageBox.Show("Автомобиль успешно удален!", "Успех");
             }
         }
 
@@ -186,7 +173,6 @@ namespace dataGridView
         public void OnUpdate()
         {
             bindingSource.ResetBindings(false);
-            dataGridViewCar.Refresh();
             SetStatistic();
         }
     }

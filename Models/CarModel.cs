@@ -1,5 +1,4 @@
-﻿using dataGridView.Services;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace dataGridView.Models
 {
@@ -16,7 +15,7 @@ namespace dataGridView.Models
         /// <summary>
         /// Марка автомобиля
         /// </summary>
-        /// [Display(Name = "Марка автомобиля")]
+        [Display(Name = "Марка автомобиля")]
         [Required(ErrorMessage = "{0} обязательна для выбора")]
         [Range(1, 3, ErrorMessage = "{0} должна быть выбрана из списка")]
         public CarMake CarMake { get; set; }
@@ -87,8 +86,6 @@ namespace dataGridView.Models
         {
             get
             {
-                if (FuelConsumption <= 0)
-                    return 0;
                 return Math.Round(FuelReserveHours * 60 * RentCostPerMinute, 2);
             }
         }

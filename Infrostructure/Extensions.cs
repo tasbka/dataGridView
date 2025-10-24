@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 
-namespace dataGridView.App.Infrostructure
+namespace dataGridView.App.Infrastructure
 {
-    //Статический класс расширений для работы с привязкой данных и валидацией в Windows Forms
+    ///<summary>
+    ///Статический класс расширений для работы с привязкой данных и валидацией в Windows Forms
+    ///</summary>
     public static class Extensions
     {
         /// <summary>

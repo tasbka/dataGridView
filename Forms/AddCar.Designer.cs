@@ -43,12 +43,12 @@
             numericUpDownFuelConsumption = new NumericUpDown();
             numericUpDownCurrentFuelVolume = new NumericUpDown();
             numericUpDownRentCostPerMinute = new NumericUpDown();
-            errorProviderError = new ErrorProvider(components);
+            errorProviderForProect = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)numericUpDownMileage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownFuelConsumption).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownCurrentFuelVolume).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownRentCostPerMinute).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)errorProviderError).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProviderForProect).BeginInit();
             SuspendLayout();
             // 
             // buttonSave
@@ -182,9 +182,10 @@
             numericUpDownRentCostPerMinute.TabIndex = 18;
             numericUpDownRentCostPerMinute.TextAlign = HorizontalAlignment.Center;
             // 
-            // errorProviderError
+            // errorProviderForProect
             // 
-            errorProviderError.ContainerControl = this;
+            errorProviderForProect.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            errorProviderForProect.ContainerControl = this;
             // 
             // AddCar
             // 
@@ -216,7 +217,7 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDownFuelConsumption).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownCurrentFuelVolume).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownRentCostPerMinute).EndInit();
-            ((System.ComponentModel.ISupportInitialize)errorProviderError).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProviderForProect).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -237,6 +238,6 @@
         private NumericUpDown numericUpDownFuelConsumption;
         private NumericUpDown numericUpDownCurrentFuelVolume;
         private NumericUpDown numericUpDownRentCostPerMinute;
-        private ErrorProvider errorProviderError;
+        private ErrorProvider errorProviderForProect;
     }
 }

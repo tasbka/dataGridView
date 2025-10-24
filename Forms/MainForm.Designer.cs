@@ -116,6 +116,7 @@
             // 
             // dataGridViewCar
             // 
+            dataGridViewCar.AllowUserToAddRows = false;
             dataGridViewCar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCar.BackgroundColor = Color.LightBlue;
             dataGridViewCar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -124,6 +125,7 @@
             dataGridViewCar.GridColor = SystemColors.WindowText;
             dataGridViewCar.Location = new Point(0, 27);
             dataGridViewCar.Name = "dataGridViewCar";
+            dataGridViewCar.ReadOnly = true;
             dataGridViewCar.RowHeadersWidth = 51;
             dataGridViewCar.Size = new Size(1218, 397);
             dataGridViewCar.TabIndex = 2;
@@ -135,6 +137,7 @@
             CarMakeCol.HeaderText = "Марка автомобиля";
             CarMakeCol.MinimumWidth = 6;
             CarMakeCol.Name = "CarMakeCol";
+            CarMakeCol.ReadOnly = true;
             CarMakeCol.Resizable = DataGridViewTriState.True;
             CarMakeCol.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
@@ -143,42 +146,49 @@
             AutoNumberCol.HeaderText = "Гос. номер";
             AutoNumberCol.MinimumWidth = 6;
             AutoNumberCol.Name = "AutoNumberCol";
+            AutoNumberCol.ReadOnly = true;
             // 
             // MileageCol
             // 
             MileageCol.HeaderText = "Пробег";
             MileageCol.MinimumWidth = 6;
             MileageCol.Name = "MileageCol";
+            MileageCol.ReadOnly = true;
             // 
             // FuelConsumptionCol
             // 
             FuelConsumptionCol.HeaderText = "Средний расход топлива";
             FuelConsumptionCol.MinimumWidth = 6;
             FuelConsumptionCol.Name = "FuelConsumptionCol";
+            FuelConsumptionCol.ReadOnly = true;
             // 
             // CurrentFuelVolumeCol
             // 
             CurrentFuelVolumeCol.HeaderText = "Текущий объем топлива";
             CurrentFuelVolumeCol.MinimumWidth = 6;
             CurrentFuelVolumeCol.Name = "CurrentFuelVolumeCol";
+            CurrentFuelVolumeCol.ReadOnly = true;
             // 
             // RentCostPerMinuteCol
             // 
             RentCostPerMinuteCol.HeaderText = "Стоимость аренды (мин)";
             RentCostPerMinuteCol.MinimumWidth = 6;
             RentCostPerMinuteCol.Name = "RentCostPerMinuteCol";
+            RentCostPerMinuteCol.ReadOnly = true;
             // 
             // FuelReserveHoursCol
             // 
             FuelReserveHoursCol.HeaderText = "Запас хода (ч)";
             FuelReserveHoursCol.MinimumWidth = 6;
             FuelReserveHoursCol.Name = "FuelReserveHoursCol";
+            FuelReserveHoursCol.ReadOnly = true;
             // 
             // RentAmountCol
             // 
             RentAmountCol.HeaderText = "Сумма аренды";
             RentAmountCol.MinimumWidth = 6;
             RentAmountCol.Name = "RentAmountCol";
+            RentAmountCol.ReadOnly = true;
             // 
             // MainForm
             // 

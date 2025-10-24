@@ -1,16 +1,6 @@
-﻿using dataGridView.App.Infrostructure;
+﻿using dataGridView.App.Infrastructure;
 using dataGridView.Models;
-using dataGridView.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace dataGridView.Forms
 {
@@ -37,21 +27,13 @@ namespace dataGridView.Forms
             }
 
             comboBoxMakeCar.DataSource = Enum.GetValues(typeof(CarMake));
-
+            this.AutoValidate = AutoValidate.EnableAllowFocusChange;
             comboBoxMakeCar.AddBinding(x => x.SelectedItem!, targetCar, x => x.CarMake);
             textBoxNumber.AddBinding(x => x.Text, targetCar, x => x.AutoNumber);
             numericUpDownMileage.AddBinding(x => x.Value, targetCar, x => x.Mileage);
             numericUpDownFuelConsumption.AddBinding(x => x.Value, targetCar, x => x.FuelConsumption);
             numericUpDownCurrentFuelVolume.AddBinding(x => x.Value, targetCar, x => x.CurrentFuelVolume);
             numericUpDownRentCostPerMinute.AddBinding(x => x.Value, targetCar, x => x.RentCostPerMinute);
-
-            ConfigureErrorProvider();
-        }
-
-        private void ConfigureErrorProvider()
-        {
-            errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
-            errorProvider.ContainerControl = this;
         }
 
         /// <summary>
