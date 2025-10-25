@@ -101,8 +101,8 @@ namespace dataGridView
             if (add.ShowDialog(this) == DialogResult.OK)
             {
                 items.Add(add.CurrentCar);
-                bindingSource.ResetBindings(false);
                 MessageBox.Show("Автомобиль успешно добавлен!");
+                OnUpdate();
             }
         }
 

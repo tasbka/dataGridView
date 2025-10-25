@@ -1,13 +1,13 @@
 ﻿using dataGridView.App.Infrastructure;
 using dataGridView.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Forms;
 
 namespace dataGridView.Forms
 {
     public partial class AddCar : Form
     {
         private readonly CarModel targetCar;
-        private readonly ErrorProvider errorProvider = new ErrorProvider();
 
         public AddCar(CarModel? sourceCar = null)
         {
@@ -28,12 +28,13 @@ namespace dataGridView.Forms
 
             comboBoxMakeCar.DataSource = Enum.GetValues(typeof(CarMake));
             this.AutoValidate = AutoValidate.EnableAllowFocusChange;
-            comboBoxMakeCar.AddBinding(x => x.SelectedItem!, targetCar, x => x.CarMake);
-            textBoxNumber.AddBinding(x => x.Text, targetCar, x => x.AutoNumber);
-            numericUpDownMileage.AddBinding(x => x.Value, targetCar, x => x.Mileage);
-            numericUpDownFuelConsumption.AddBinding(x => x.Value, targetCar, x => x.FuelConsumption);
-            numericUpDownCurrentFuelVolume.AddBinding(x => x.Value, targetCar, x => x.CurrentFuelVolume);
-            numericUpDownRentCostPerMinute.AddBinding(x => x.Value, targetCar, x => x.RentCostPerMinute);
+
+            comboBoxMakeCar.AddBinding(x => x.SelectedItem!, targetCar, x => x.CarMake, errorProvider);
+            textBoxNumber.AddBinding(x => x.Text, targetCar, x => x.AutoNumber, errorProvider);
+            numericUpDownMileage.AddBinding(x => x.Value, targetCar, x => x.Mileage, errorProvider);
+            numericUpDownFuelConsumption.AddBinding(x => x.Value, targetCar, x => x.FuelConsumption, errorProvider);
+            numericUpDownCurrentFuelVolume.AddBinding(x => x.Value, targetCar, x => x.CurrentFuelVolume, errorProvider);
+            numericUpDownRentCostPerMinute.AddBinding(x => x.Value, targetCar, x => x.RentCostPerMinute, errorProvider);
         }
 
         /// <summary>
