@@ -72,8 +72,6 @@ namespace dataGridView.Models
         {
             get
             {
-                if (FuelConsumption <= 0)
-                    return 0;
                 return Math.Round(CurrentFuelVolume / FuelConsumption, 2);
             }
         }
