@@ -64,36 +64,22 @@ namespace dataGridView.Models
             ErrorMessage = "{0} должна быть в диапазоне от {1} до {2} руб/мин")]
         public double RentCostPerMinute { get; set; }
 
-        /// <summary>
-        /// Запас хода по топливу (часы)
-        /// </summary>
-        [Display(Name = "Запас хода по топливу")]
-        public double FuelReserveHours
-        {
-            get
-            {
-                return Math.Round(CurrentFuelVolume / FuelConsumption, 2);
-            }
-        }
-
-        /// <summary>
-        /// Сумма аренды до полного расхода топлива
-        /// </summary>
-        [Display(Name = "Сумма аренды")]
-        public double RentAmount
-        {
-            get
-            {
-                return Math.Round(FuelReserveHours * 60 * RentCostPerMinute, 2);
-            }
-        }
 
         /// <summary>
         /// Создает копию объекта CarModel
         /// </summary>
         public CarModel Clone()
         {
-          return (CarModel)this.MemberwiseClone();
+            return new CarModel
+            {
+                Id = this.Id,
+                CarMake = this.CarMake,
+                AutoNumber = this.AutoNumber,
+                Mileage = this.Mileage,
+                FuelConsumption = this.FuelConsumption,
+                CurrentFuelVolume = this.CurrentFuelVolume,
+                RentCostPerMinute = this.RentCostPerMinute
+            };
         }
     }
 

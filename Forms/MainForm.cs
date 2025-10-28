@@ -58,8 +58,6 @@ namespace dataGridView
             FuelConsumptionCol.DataPropertyName = nameof(CarModel.FuelConsumption);
             CurrentFuelVolumeCol.DataPropertyName = nameof(CarModel.CurrentFuelVolume);
             RentCostPerMinuteCol.DataPropertyName = nameof(CarModel.RentCostPerMinute);
-            FuelReserveHoursCol.DataPropertyName = nameof(CarModel.FuelReserveHours);
-            RentAmountCol.DataPropertyName = nameof(CarModel.RentAmount);
 
             dataGridViewCar.AutoGenerateColumns = false;
             CarMakeCol.DataSource = Enum.GetValues(typeof(CarMake));
@@ -79,6 +77,7 @@ namespace dataGridView
             if (car == null)
                 return;
 
+            // Отображение марки автомобиля
             if (col.DataPropertyName == nameof(CarModel.CarMake))
             {
                 e.Value = car.CarMake switch
@@ -88,6 +87,33 @@ namespace dataGridView
                     CarMake.Hyundai => "Хёндай Крета",
                     CarMake.Unknow or _ => "Неизвестно"
                 };
+            }
+
+            // Расчёт запаса хода по топливу (часы)
+            else if (col.Name == "FuelReserveHoursCol")
+            {
+                if (car.FuelConsumption > 0)
+                    e.Value = Math.Round(car.CurrentFuelVolume / car.FuelConsumption, 2);
+                else
+                {
+                    e.Value = "—";
+                }
+            }
+
+            // Расчёт суммы аренды до полного расхода топлива
+            else if (col.Name == "RentAmountCol")
+            {
+                if (car.FuelConsumption > 0)
+                {
+                    double fuelReserveHours = car.CurrentFuelVolume / car.FuelConsumption;
+                    double rentAmount = fuelReserveHours * 60 * car.RentCostPerMinute;
+                    e.Value = Math.Round(rentAmount, 2);
+                }
+                else
+                {
+                    e.Value = "—";
+                }
+                    
             }
         }
 
@@ -121,7 +147,7 @@ namespace dataGridView
         /// </summary>
         private void toolStripButtonEdit_Click(object sender, EventArgs e)
         {
-             if (dataGridViewCar.SelectedRows.Count == 0)
+             if (dataGridViewCar.CurrentCell == null)
              {
                 MessageBox.Show("Выберите автомобиль для редактирования!", "Внимание",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -146,7 +172,7 @@ namespace dataGridView
         /// </summary>
         private void toolStripButtonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridViewCar.SelectedRows.Count == 0)
+            if (dataGridViewCar.CurrentCell == null)
             {
                 MessageBox.Show("Выберите автомобиль для удаления!", "Внимание",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);

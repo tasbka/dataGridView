@@ -23,6 +23,6 @@
         /// <summary>
         /// Митсубиси Аутлендер
         /// </summary>
-        Mitsubishi
+        Mitsubishi,
     }
 }
