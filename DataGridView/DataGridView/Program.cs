@@ -1,4 +1,6 @@
-﻿namespace dataGridView
+﻿using dataGridView;
+
+namespace DataGridView
 {
     internal static class Program
     {
