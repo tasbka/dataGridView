@@ -1,0 +1,235 @@
+﻿namespace dataGridView
+{
+    partial class MainForm
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            statusStripAuto = new StatusStrip();
+            toolStripStatusLabelCount = new ToolStripStatusLabel();
+            toolStripStatusLabelStatusCar = new ToolStripStatusLabel();
+            toolStripMenu = new ToolStrip();
+            toolStripButtonProperties = new ToolStripButton();
+            toolStripButtonEdit = new ToolStripButton();
+            toolStripButtonDel = new ToolStripButton();
+            dataGridViewCar = new DataGridView();
+            CarMakeCol = new DataGridViewComboBoxColumn();
+            AutoNumberCol = new DataGridViewTextBoxColumn();
+            MileageCol = new DataGridViewTextBoxColumn();
+            FuelConsumptionCol = new DataGridViewTextBoxColumn();
+            CurrentFuelVolumeCol = new DataGridViewTextBoxColumn();
+            RentCostPerMinuteCol = new DataGridViewTextBoxColumn();
+            FuelReserveHoursCol = new DataGridViewTextBoxColumn();
+            RentAmountCol = new DataGridViewTextBoxColumn();
+            statusStripAuto.SuspendLayout();
+            toolStripMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCar).BeginInit();
+            SuspendLayout();
+            // 
+            // statusStripAuto
+            // 
+            statusStripAuto.ImageScalingSize = new Size(20, 20);
+            statusStripAuto.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelCount, toolStripStatusLabelStatusCar });
+            statusStripAuto.Location = new Point(0, 424);
+            statusStripAuto.Name = "statusStripAuto";
+            statusStripAuto.Size = new Size(1218, 26);
+            statusStripAuto.TabIndex = 0;
+            statusStripAuto.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabelCount
+            // 
+            toolStripStatusLabelCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            toolStripStatusLabelCount.Name = "toolStripStatusLabelCount";
+            toolStripStatusLabelCount.Size = new Size(201, 20);
+            toolStripStatusLabelCount.Text = "Количество автомобилей:";
+            // 
+            // toolStripStatusLabelStatusCar
+            // 
+            toolStripStatusLabelStatusCar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            toolStripStatusLabelStatusCar.Name = "toolStripStatusLabelStatusCar";
+            toolStripStatusLabelStatusCar.Size = new Size(424, 20);
+            toolStripStatusLabelStatusCar.Text = "автомобилей с критически низким уровнем запаса хода:";
+            // 
+            // toolStripMenu
+            // 
+            toolStripMenu.BackColor = Color.LightBlue;
+            toolStripMenu.ImageScalingSize = new Size(20, 20);
+            toolStripMenu.Items.AddRange(new ToolStripItem[] { toolStripButtonProperties, toolStripButtonEdit, toolStripButtonDel });
+            toolStripMenu.Location = new Point(0, 0);
+            toolStripMenu.Name = "toolStripMenu";
+            toolStripMenu.Size = new Size(1218, 27);
+            toolStripMenu.TabIndex = 1;
+            toolStripMenu.Text = "toolStrip1";
+            // 
+            // toolStripButtonProperties
+            // 
+            toolStripButtonProperties.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonProperties.Image = Properties.Resources.добавить;
+            toolStripButtonProperties.ImageTransparentColor = Color.Magenta;
+            toolStripButtonProperties.Name = "toolStripButtonProperties";
+            toolStripButtonProperties.Size = new Size(29, 24);
+            toolStripButtonProperties.Text = "toolStripButton1";
+            toolStripButtonProperties.Click += toolStripButtonProperties_Click;
+            // 
+            // toolStripButtonEdit
+            // 
+            toolStripButtonEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonEdit.Image = Properties.Resources.редактировать;
+            toolStripButtonEdit.ImageTransparentColor = Color.Magenta;
+            toolStripButtonEdit.Name = "toolStripButtonEdit";
+            toolStripButtonEdit.Size = new Size(29, 24);
+            toolStripButtonEdit.Text = "toolStripButton1";
+            toolStripButtonEdit.Click += toolStripButtonEdit_Click;
+            // 
+            // toolStripButtonDel
+            // 
+            toolStripButtonDel.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonDel.Image = Properties.Resources.удалить;
+            toolStripButtonDel.ImageTransparentColor = Color.Magenta;
+            toolStripButtonDel.Name = "toolStripButtonDel";
+            toolStripButtonDel.Size = new Size(29, 24);
+            toolStripButtonDel.Text = "toolStripButton2";
+            toolStripButtonDel.Click += toolStripButtonDel_Click;
+            // 
+            // dataGridViewCar
+            // 
+            dataGridViewCar.AllowUserToAddRows = false;
+            dataGridViewCar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCar.BackgroundColor = Color.LightBlue;
+            dataGridViewCar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCar.Columns.AddRange(new DataGridViewColumn[] { CarMakeCol, AutoNumberCol, MileageCol, FuelConsumptionCol, CurrentFuelVolumeCol, RentCostPerMinuteCol, FuelReserveHoursCol, RentAmountCol });
+            dataGridViewCar.Dock = DockStyle.Fill;
+            dataGridViewCar.GridColor = SystemColors.WindowText;
+            dataGridViewCar.Location = new Point(0, 27);
+            dataGridViewCar.Name = "dataGridViewCar";
+            dataGridViewCar.ReadOnly = true;
+            dataGridViewCar.RowHeadersWidth = 51;
+            dataGridViewCar.Size = new Size(1218, 397);
+            dataGridViewCar.TabIndex = 2;
+            dataGridViewCar.CellFormatting += dataGridViewCar_CellFormatting;
+            // 
+            // CarMakeCol
+            // 
+            CarMakeCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+            CarMakeCol.HeaderText = "Марка автомобиля";
+            CarMakeCol.MinimumWidth = 6;
+            CarMakeCol.Name = "CarMakeCol";
+            CarMakeCol.ReadOnly = true;
+            CarMakeCol.Resizable = DataGridViewTriState.True;
+            CarMakeCol.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // AutoNumberCol
+            // 
+            AutoNumberCol.HeaderText = "Гос. номер";
+            AutoNumberCol.MinimumWidth = 6;
+            AutoNumberCol.Name = "AutoNumberCol";
+            AutoNumberCol.ReadOnly = true;
+            // 
+            // MileageCol
+            // 
+            MileageCol.HeaderText = "Пробег";
+            MileageCol.MinimumWidth = 6;
+            MileageCol.Name = "MileageCol";
+            MileageCol.ReadOnly = true;
+            // 
+            // FuelConsumptionCol
+            // 
+            FuelConsumptionCol.HeaderText = "Средний расход топлива";
+            FuelConsumptionCol.MinimumWidth = 6;
+            FuelConsumptionCol.Name = "FuelConsumptionCol";
+            FuelConsumptionCol.ReadOnly = true;
+            // 
+            // CurrentFuelVolumeCol
+            // 
+            CurrentFuelVolumeCol.HeaderText = "Текущий объем топлива";
+            CurrentFuelVolumeCol.MinimumWidth = 6;
+            CurrentFuelVolumeCol.Name = "CurrentFuelVolumeCol";
+            CurrentFuelVolumeCol.ReadOnly = true;
+            // 
+            // RentCostPerMinuteCol
+            // 
+            RentCostPerMinuteCol.HeaderText = "Стоимость аренды (мин)";
+            RentCostPerMinuteCol.MinimumWidth = 6;
+            RentCostPerMinuteCol.Name = "RentCostPerMinuteCol";
+            RentCostPerMinuteCol.ReadOnly = true;
+            // 
+            // FuelReserveHoursCol
+            // 
+            FuelReserveHoursCol.HeaderText = "Запас хода (ч)";
+            FuelReserveHoursCol.MinimumWidth = 6;
+            FuelReserveHoursCol.Name = "FuelReserveHoursCol";
+            FuelReserveHoursCol.ReadOnly = true;
+            // 
+            // RentAmountCol
+            // 
+            RentAmountCol.HeaderText = "Сумма аренды";
+            RentAmountCol.MinimumWidth = 6;
+            RentAmountCol.Name = "RentAmountCol";
+            RentAmountCol.ReadOnly = true;
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1218, 450);
+            Controls.Add(dataGridViewCar);
+            Controls.Add(toolStripMenu);
+            Controls.Add(statusStripAuto);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "GoCar";
+            statusStripAuto.ResumeLayout(false);
+            statusStripAuto.PerformLayout();
+            toolStripMenu.ResumeLayout(false);
+            toolStripMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCar).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private StatusStrip statusStripAuto;
+        private ToolStripStatusLabel toolStripStatusLabelCount;
+        private ToolStrip toolStripMenu;
+        private ToolStripButton toolStripButtonProperties;
+        private DataGridView dataGridViewCar;
+        private ToolStripStatusLabel toolStripStatusLabelStatusCar;
+        private DataGridViewComboBoxColumn CarMakeCol;
+        private DataGridViewTextBoxColumn AutoNumberCol;
+        private DataGridViewTextBoxColumn MileageCol;
+        private DataGridViewTextBoxColumn FuelConsumptionCol;
+        private DataGridViewTextBoxColumn CurrentFuelVolumeCol;
+        private DataGridViewTextBoxColumn RentCostPerMinuteCol;
+        private DataGridViewTextBoxColumn FuelReserveHoursCol;
+        private DataGridViewTextBoxColumn RentAmountCol;
+        private ToolStripButton toolStripButtonEdit;
+        private ToolStripButton toolStripButtonDel;
+    }
+}
