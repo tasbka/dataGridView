@@ -1,5 +1,5 @@
 ﻿using dataGridView.App.Infrastructure;
-using dataGridView.Models;
+using DataGridView.DataAccess.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
 
@@ -15,7 +15,7 @@ namespace dataGridView.Forms
 
             if (sourceCar != null)
             {
-                targetCar = sourceCar.Clone();
+                targetCar = (CarModel)sourceCar.Clone();
                 buttonSave.Text = "Сохранить";
                 Text = "Редактирование автомобиля";
             }

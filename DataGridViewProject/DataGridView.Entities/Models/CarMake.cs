@@ -1,4 +1,4 @@
-﻿namespace dataGridView.Models
+﻿namespace DataGridView.DataAccess.Models
 {
     /// <summary>
     /// Класс содержащий марки автомобиля
