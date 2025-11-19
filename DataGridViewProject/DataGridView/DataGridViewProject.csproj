@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataGridView.BussinessLogic\DataGridView.BussinessLogic.csproj" />
-    <ProjectReference Include="..\DataGridView.Entities\DataGridView.DataAccess.csproj" />
+    <ProjectReference Include="..\DataGridView.BussinessLogic\Services.csproj" />
+    <ProjectReference Include="..\DataGridView.Entities\Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

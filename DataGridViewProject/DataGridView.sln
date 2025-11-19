@@ -5,9 +5,9 @@ VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridViewProject", "DataGridView\DataGridViewProject.csproj", "{8E440247-6674-4F10-8911-AD48D5321718}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridView.DataAccess", "DataGridView.Entities\DataGridView.DataAccess.csproj", "{16FF36CA-E8D8-4D1A-A9F9-00079568464B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "DataGridView.Entities\Entities.csproj", "{16FF36CA-E8D8-4D1A-A9F9-00079568464B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridView.BussinessLogic", "DataGridView.BussinessLogic\DataGridView.BussinessLogic.csproj", "{F34E321D-EFF8-4CD0-ACFD-52D195B48AD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "DataGridView.BussinessLogic\Services.csproj", "{F34E321D-EFF8-4CD0-ACFD-52D195B48AD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Contracts", "Services.Contracts\Services.Contracts.csproj", "{314D9EE2-3C29-4416-B57B-9306F50DF373}"
 EndProject
