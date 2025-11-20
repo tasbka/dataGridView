@@ -27,55 +27,7 @@ namespace dataGridView
 
             dataGridViewCar.AutoGenerateColumns = false;
             CarMakeCol.DataSource = Enum.GetValues(typeof(CarMake));
-
-            //bindingSource.DataSource = items;
-            //dataGridViewCar.DataSource = bindingSource;
         }
-
-        //private void LoadInitialData()
-        //{
-        //    var initialCars = new List<CarModel>
-        //    {
-        //        new CarModel
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            CarMake = CarMake.Hyundai,
-        //            AutoNumber = "КЕ123К",
-        //            Mileage = 100,
-        //            FuelConsumption = 50,
-        //            CurrentFuelVolume = 100,
-        //            RentCostPerMinute = 100
-        //        },
-        //        new CarModel
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            CarMake = CarMake.Lada,
-        //            AutoNumber = "ЛО123Л",
-        //            Mileage = 300,
-        //            FuelConsumption = 50,
-        //            CurrentFuelVolume = 5,
-        //            RentCostPerMinute = 120
-        //        },
-        //        new CarModel
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            CarMake = CarMake.Mitsubishi,
-        //            AutoNumber = "ЛО123Х",
-        //            Mileage = 150,
-        //            FuelConsumption = 40,
-        //            CurrentFuelVolume = 100,
-        //            RentCostPerMinute = 90
-        //        }
-        //    };
-
-        //    foreach (var car in initialCars)
-        //    {
-        //        carService.AddCar(car);
-        //    }
-
-        //    RefreshData();
-        //}
-
 
         /// <summary>
         /// Обработчик события форматирования ячеек DataGridView
