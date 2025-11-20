@@ -1,5 +1,5 @@
 ﻿using dataGridView.App.Infrastructure;
-using DataGridView.DataAccess.Models;
+using DataGridView.Entities.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
 

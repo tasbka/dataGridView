@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataGridView.DataAccess.Models
+namespace DataGridView.Entities.Models
 {
     /// <summary>
     /// Модель авто

@@ -1,22 +1,39 @@
-﻿using DataGridView.DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DataGridView.Entities.Models;
+using Services.Contracts;
 using System.Threading.Channels;
-using System.Threading.Tasks;
 
-namespace DataGridView.BussinessLogic.Services
+namespace DataGridView.Services.Contracts
 {
     public interface ICarService
     {
-        void AddCar(CarModel car);
-        void UpdateCar(CarModel car);
-        void DeleteCar(Guid id);
-        List<CarModel> GetAllCars();
-        CarModel? GetCarById(Guid id);
-        (int totalCars, int lowFuelCars) GetStatistics();
-        ChannelReader<CarModel> GetCarsStream();
-        IAsyncEnumerable<CarModel> GetAllCarsAsync();
+        /// <summary>
+        /// Получить все автомобили
+        /// </summary>
+        Task<List<CarModel>> GetAllCarsAsync();
+
+        /// <summary>
+        /// Добавить новый автомобиль
+        /// </summary>
+        Task AddCarAsync(CarModel car);
+
+        /// <summary>
+        /// Обновить автомобиль
+        /// </summary>
+        Task UpdateCarAsync(CarModel car);
+
+        /// <summary>
+        /// Удалить автомобиль по ID
+        /// </summary>
+        Task DeleteCarAsync(Guid id);
+
+        /// <summary>
+        /// Найти автомобиль по ID
+        /// </summary>
+        Task<CarModel?> GetCarByIdAsync(Guid id);
+
+        /// <summary>
+        /// Получить статистику по автомобилям в прокате
+        /// </summary>
+        Task<CarStatistics> GetStatisticsAsync();
     }
 }

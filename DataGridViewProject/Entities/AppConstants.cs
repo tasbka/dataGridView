@@ -1,4 +1,4 @@
-﻿namespace DataGridView.DataAccess
+﻿namespace DataGridView.Entities
 {
 
         /// <summary>

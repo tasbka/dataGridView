@@ -201,6 +201,7 @@ namespace dataGridView
             dataGridViewCar.RowHeadersWidth = 51;
             dataGridViewCar.Size = new Size(1218, 397);
             dataGridViewCar.TabIndex = 2;
+            dataGridViewCar.CellContentClick += dataGridViewCar_CellContentClick;
             dataGridViewCar.CellFormatting += dataGridViewCar_CellFormatting_1;
             // 
             // CarMakeCol1
@@ -253,6 +254,7 @@ namespace dataGridView
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GoCar";
+            Load += MainForm_Load;
             statusStripAuto.ResumeLayout(false);
             statusStripAuto.PerformLayout();
             toolStripMenu.ResumeLayout(false);
