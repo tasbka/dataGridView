@@ -9,8 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="tasbka.Services" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <ProjectReference Include="..\Services.Contracts\Services.Contracts.csproj" />
-	  <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

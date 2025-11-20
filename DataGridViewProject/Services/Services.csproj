@@ -19,9 +19,13 @@
     <ProjectReference Include="..\Entities\Entities.csproj" />
     <ProjectReference Include="..\Services.Contracts\Services.Contracts.csproj" />
   </ItemGroup>
-	
+
 	<ItemGroup>
 		<None Update="icon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Update="README.md">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
