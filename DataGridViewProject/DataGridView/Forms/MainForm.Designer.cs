@@ -201,8 +201,7 @@ namespace dataGridView
             dataGridViewCar.RowHeadersWidth = 51;
             dataGridViewCar.Size = new Size(1218, 397);
             dataGridViewCar.TabIndex = 2;
-            dataGridViewCar.CellContentClick += dataGridViewCar_CellContentClick;
-            dataGridViewCar.CellFormatting += dataGridViewCar_CellFormatting_1;
+            dataGridViewCar.CellFormatting += dataGridViewCar_CellFormatting;
             // 
             // CarMakeCol1
             // 

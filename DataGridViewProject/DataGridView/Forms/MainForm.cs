@@ -5,18 +5,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dataGridView
 {
+    /// <summary>
+    /// Главная форма программы
+    /// </summary>
     public partial class MainForm : Form
     {
-        private readonly ICarService carService1;
-        private readonly BindingSource _bindingSource = new();
-
+        private readonly ICarService carServicePr;
+        private readonly BindingSource bindingSource = new();
         /// <summary>
         /// Инициализирует экземпляр 
         /// </summary>
+        /// <param name="carService"></param>
         public MainForm(ICarService carService)
         {
             InitializeComponent();
-            carService1 = carService;
+            carServicePr = carService;
 
             CarMakeCol1.DataPropertyName = nameof(CarModel.CarMake);
             AutoNumberCol1.DataPropertyName = nameof(CarModel.AutoNumber);
@@ -30,57 +33,6 @@ namespace dataGridView
         }
 
         /// <summary>
-        /// Обработчик события форматирования ячеек DataGridView
-        /// </summary>
-        private void dataGridViewCar_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            var col = dataGridViewCar.Columns[e.ColumnIndex];
-            var car = (CarModel)dataGridViewCar.Rows[e.RowIndex].DataBoundItem;
-
-            if (car == null)
-                return;
-
-            // Отображение марки автомобиля
-            if (col.DataPropertyName == nameof(CarModel.CarMake))
-            {
-                e.Value = car.CarMake switch
-                {
-                    CarMake.Lada => "Лада Веста",
-                    CarMake.Mitsubishi => "Митсубиси Аутлендер",
-                    CarMake.Hyundai => "Хёндай Крета",
-                    CarMake.Unknow or _ => "Неизвестно"
-                };
-            }
-
-            // Расчёт запаса хода по топливу (часы)
-            else if (col.Name == "FuelReserveHoursCol")
-            {
-                if (car.FuelConsumption > 0)
-                    e.Value = Math.Round(car.CurrentFuelVolume / car.FuelConsumption, 2);
-                else
-                {
-                    e.Value = "—";
-                }
-            }
-
-            // Расчёт суммы аренды до полного расхода топлива
-            else if (col.Name == "RentAmountCol")
-            {
-                if (car.FuelConsumption > 0)
-                {
-                    double fuelReserveHours = car.CurrentFuelVolume / car.FuelConsumption;
-                    double rentAmount = fuelReserveHours * 60 * car.RentCostPerMinute;
-                    e.Value = Math.Round(rentAmount, 2);
-                }
-                else
-                {
-                    e.Value = "—";
-                }
-
-            }
-        }
-
-        /// <summary>
         /// Обработчик нажатия кнопки Добавить товар
         /// </summary>
         private async void toolStripButtonProperties_Click(object sender, EventArgs e)
@@ -88,7 +40,7 @@ namespace dataGridView
             var addForm = new AddCar();
             if (addForm.ShowDialog(this) == DialogResult.OK)
             {
-                await carService1.AddCarAsync(addForm.CurrentCar);
+                await carServicePr.AddCarAsync(addForm.CurrentCar);
                 await OnUpdateAsync();
                 MessageBox.Show("Автомобиль успешно добавлен!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -121,7 +73,7 @@ namespace dataGridView
             {
                 try
                 {
-                    await carService1.UpdateCarAsync(editForm.CurrentCar);
+                    await carServicePr.UpdateCarAsync(editForm.CurrentCar);
                     await OnUpdateAsync();
                     MessageBox.Show("Автомобиль успешно обновлен!", "Успех",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -155,20 +107,22 @@ namespace dataGridView
             if (MessageBox.Show($"Вы действительно желаете удалить автомобиль с номером '{car.AutoNumber}'?",
                 "Удаление автомобиля", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                await carService1.DeleteCarAsync(car.Id);
+                await carServicePr.DeleteCarAsync(car.Id);
                 await OnUpdateAsync();
                 MessageBox.Show("Автомобиль успешно удален!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void dataGridViewCar_CellFormatting_1(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dataGridViewCar_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var col = dataGridViewCar.Columns[e.ColumnIndex];
             var car = (CarModel)dataGridViewCar.Rows[e.RowIndex].DataBoundItem;
 
             if (car == null)
+            {
                 return;
+            }
 
             // Отображение марки автомобиля
             if (col.DataPropertyName == nameof(CarModel.CarMake))
@@ -210,11 +164,6 @@ namespace dataGridView
             }
         }
 
-        private void dataGridViewCar_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private async void MainForm_Load(object sender, EventArgs e)
         {
             await LoadDataAsync();
@@ -222,23 +171,23 @@ namespace dataGridView
 
         private async Task LoadDataAsync()
         {
-            var cars = await carService1.GetAllCarsAsync();
-            _bindingSource.DataSource = cars.ToList();
-            dataGridViewCar.DataSource = _bindingSource;
+            var cars = await carServicePr.GetAllCarsAsync();
+            bindingSource.DataSource = cars.ToList();
+            dataGridViewCar.DataSource = bindingSource;
             await SetStatisticAsync();
         }
 
         private async Task OnUpdateAsync()
         {
-            var cars = await carService1.GetAllCarsAsync();
-            _bindingSource.DataSource = cars.ToList();
-            _bindingSource.ResetBindings(false);
+            var cars = await carServicePr.GetAllCarsAsync();
+            bindingSource.DataSource = cars.ToList();
+            bindingSource.ResetBindings(false);
             await SetStatisticAsync();
         }
 
         private async Task SetStatisticAsync()
         {
-            var statistics = await carService1.GetStatisticsAsync();
+            var statistics = await carServicePr.GetStatisticsAsync();
             toolStripStatusLabelStatusCar.Text = $"Автомобили с критически низким уровнем запаса хода: {statistics.LowFuelCars}";
             toolStripStatusLabelCount.Text = $"Количество автомобилей: {statistics.TotalCars}";
         }

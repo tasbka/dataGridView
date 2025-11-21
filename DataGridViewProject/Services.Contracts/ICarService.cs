@@ -4,6 +4,9 @@ using System.Threading.Channels;
 
 namespace DataGridView.Services.Contracts
 {
+    /// <summary>
+    /// Интерфейс сервиса для работы с автомобилями
+    /// </summary>
     public interface ICarService
     {
         /// <summary>
