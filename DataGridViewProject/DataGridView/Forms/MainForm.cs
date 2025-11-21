@@ -12,6 +12,7 @@ namespace dataGridView
     {
         private readonly ICarService carServicePr;
         private readonly BindingSource bindingSource = new();
+
         /// <summary>
         /// Инициализирует экземпляр 
         /// </summary>
@@ -140,7 +141,10 @@ namespace dataGridView
             else if (col.Name == "FuelReserveHoursCol")
             {
                 if (car.FuelConsumption > 0)
+                {
                     e.Value = Math.Round(car.CurrentFuelVolume / car.FuelConsumption, 2);
+                }
+
                 else
                 {
                     e.Value = "—";

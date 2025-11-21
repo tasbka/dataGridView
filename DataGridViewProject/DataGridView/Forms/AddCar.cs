@@ -11,6 +11,7 @@ namespace dataGridView.Forms
     public partial class AddCar : Form
     {
         private readonly CarModel targetCar;
+
         /// <summary>
         /// Конструктор формы добавления авто
         /// </summary>
