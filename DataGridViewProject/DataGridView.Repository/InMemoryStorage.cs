@@ -1,0 +1,118 @@
+﻿using DataGridView.Entities.Contracts;
+using DataGridView.Repository.Contracts;
+
+namespace DataGridView.Repository
+{
+    /// <summary>
+    /// In-memory реализация хранилища автомобилей
+    /// </summary>
+    public class InMemoryStorage : IStorage
+    {
+        private readonly List<CarModel> cars;
+
+        /// <summary>
+        /// Инициализация экземпляра InMemoryStorage
+        /// </summary>
+        public InMemoryStorage()
+        {
+            // Начальные данные
+            cars =
+            [
+                new CarModel
+                {
+                    Id = Guid.NewGuid(),
+                    CarMake = CarMake.Hyundai,
+                    AutoNumber = "КЕ123К",
+                    Mileage = 100,
+                    FuelConsumption = 50,
+                    CurrentFuelVolume = 100,
+                    RentCostPerMinute = 100
+                },
+                new CarModel
+                {
+                    Id = Guid.NewGuid(),
+                    CarMake = CarMake.Lada,
+                    AutoNumber = "ЛО123Л",
+                    Mileage = 300,
+                    FuelConsumption = 50,
+                    CurrentFuelVolume = 5,
+                    RentCostPerMinute = 120
+                },
+                new CarModel
+                {
+                    Id = Guid.NewGuid(),
+                    CarMake = CarMake.Mitsubishi,
+                    AutoNumber = "ЛО123Х",
+                    Mileage = 150,
+                    FuelConsumption = 40,
+                    CurrentFuelVolume = 100,
+                    RentCostPerMinute = 90
+                }
+            ];
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<CarModel>> GetAllCarsAsync()
+        {
+            return await Task.FromResult(cars);
+        }
+
+        /// <inheritdoc/>
+        public async Task AddCarAsync(CarModel car)
+        {
+            cars.Add(car);
+            await Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public async Task UpdateCarAsync(CarModel car)
+        {
+            var existingCar = cars.FirstOrDefault(c => c.Id == car.Id);
+            if (existingCar == null)
+            {
+                return;
+            }
+
+            existingCar.CarMake = car.CarMake;
+            existingCar.AutoNumber = car.AutoNumber;
+            existingCar.Mileage = car.Mileage;
+            existingCar.FuelConsumption = car.FuelConsumption;
+            existingCar.CurrentFuelVolume = car.CurrentFuelVolume;
+            existingCar.RentCostPerMinute = car.RentCostPerMinute;
+
+            await Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public async Task DeleteCarAsync(Guid id)
+        {
+            var existingCar = cars.FirstOrDefault(c => c.Id == id);
+            if (existingCar == null)
+            {
+                return;
+            }
+            cars.Remove(existingCar);
+
+            await Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public async Task<CarModel?> GetCarByIdAsync(Guid id)
+        {
+            return await Task.FromResult(cars.FirstOrDefault(c => c.Id == id));
+        }
+        /// <inheritdoc/>
+        async Task<CarStatistics> ICarService.GetStatisticsAsync()
+        {
+            var cars = await GetAllCarsAsync();
+            var statistics = new CarStatistics
+            {
+                TotalCars = cars.Count,
+                LowFuelCars = cars.Count(c => c.CurrentFuelVolume < 7),
+                TotalRentalValue = cars.Sum(c => (decimal)c.RentCostPerMinute),
+                AverageMileage = cars.Any() ? cars.Average(c => c.Mileage) : 0
+            };
+            return statistics;
+        }
+    }
+}
