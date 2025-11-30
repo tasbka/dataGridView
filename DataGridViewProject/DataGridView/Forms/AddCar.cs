@@ -1,21 +1,28 @@
 ﻿using dataGridView.App.Infrastructure;
-using dataGridView.Models;
+using DataGridView.Entities.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
 
 namespace dataGridView.Forms
 {
+    /// <summary>
+    /// Форма редактирования/добавления авто
+    /// </summary>
     public partial class AddCar : Form
     {
         private readonly CarModel targetCar;
 
+        /// <summary>
+        /// Конструктор формы добавления авто
+        /// </summary>
+        /// <param name="sourceCar"></param>
         public AddCar(CarModel? sourceCar = null)
         {
             InitializeComponent();
 
             if (sourceCar != null)
             {
-                targetCar = sourceCar.Clone();
+                targetCar = (CarModel)sourceCar.Clone();
                 buttonSave.Text = "Сохранить";
                 Text = "Редактирование автомобиля";
             }

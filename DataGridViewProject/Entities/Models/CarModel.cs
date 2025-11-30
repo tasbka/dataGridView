@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace dataGridView.Models
+namespace DataGridView.Entities.Models
 {
     /// <summary>
     /// Модель авто
     /// </summary>
-    public class CarModel
+    public class CarModel : ICloneable
     {
         /// <summary>
         /// Идентификатор продукта
@@ -24,9 +24,9 @@ namespace dataGridView.Models
         /// Государственный номер
         /// </summary>
         [Display(Name = "Государственный номер")]
-        [Required(ErrorMessage = "{0} обязателен для заполнения")]
+        [Required(ErrorMessage = "Гос номер обязателен")]
         [StringLength(AppConstants.AutoNumberMaxLength, MinimumLength = AppConstants.AutoNumberMinLength,
-            ErrorMessage = "{0} должен быть от {2} до {1} символов")]
+            ErrorMessage = "Гос номер должен быть от {2} до {1} символов")]
         [RegularExpression(@"^[А-ЯЁ]{2}\d{3}[А-ЯЁ]{1}$",
         ErrorMessage = "{0} должен быть в формате: АЛ123В (2 буквы-3 цифры-1 буква)")]
         public string AutoNumber { get; set; } = string.Empty;
@@ -53,7 +53,7 @@ namespace dataGridView.Models
         /// </summary>
         [Display(Name = "Текущий объем топлива")]
         [Range(AppConstants.CurrentFuelVolumeMin, AppConstants.CurrentFuelVolumeMax,
-            ErrorMessage = "{0} должен быть в диапазоне от {1} до {2} литров")]
+            ErrorMessage = "{0} должен быть в диапазоне от {1} до {2} л")]
         public double CurrentFuelVolume { get; set; }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace dataGridView.Models
 
 
         /// <summary>
-        /// Создает копию объекта CarModel
+        ///  реализация ICloneable
         /// </summary>
-        public CarModel Clone()
+        public object Clone()
         {
             return new CarModel
             {
