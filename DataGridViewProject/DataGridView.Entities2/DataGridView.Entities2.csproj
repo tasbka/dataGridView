@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataGridView.Entities.Contracts\DataGridView.Entities.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

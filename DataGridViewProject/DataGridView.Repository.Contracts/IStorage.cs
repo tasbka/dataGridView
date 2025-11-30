@@ -1,4 +1,6 @@
-﻿namespace DataGridView.Repository.Contracts
+﻿using DataGridView.Entities2;
+
+namespace DataGridView.Repository.Contracts
 {
     /// <summary>
     /// Интерфейс хранилища для работы с автомобилями

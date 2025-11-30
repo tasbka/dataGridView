@@ -1,11 +1,11 @@
-﻿using DataGridView.Entities.Contracts;
+﻿using DataGridView.Entities2;
 
 namespace DataGridView.Services.Contracts
 {
     /// <summary>
     /// Интерфейс сервиса для работы с автомобилями
     /// </summary>
-    public class ICarService
+    public interface ICarService
     {
         /// <summary>
         /// Получить все автомобили

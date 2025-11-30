@@ -1,7 +1,8 @@
 ﻿using DataGridView.Repository.Contracts;
-using DataGridView.Services.Contracts;
+using DataGridView.Services;
 using dataGridView;
 using DataGridView.Repository;
+using DataGridView.Services.Contracts;
 
 namespace DataGridView.WinForms
 {
@@ -16,7 +17,7 @@ namespace DataGridView.WinForms
             ApplicationConfiguration.Initialize();
 
             IStorage storage = new InMemoryStorage();
-            ICarService carService = new ICarService(storage);
+            ICarService carService = new CarService(storage);
             
             Application.Run(new MainForm(carService));
         }

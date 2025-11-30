@@ -1,13 +1,14 @@
-﻿using DataGridView.Entities.Contracts;
+﻿using DataGridView.Entities2;
 using DataGridView.Repository.Contracts;
 using DataGridView.Services.Contracts;
+
 
 namespace DataGridView.Services
 {
     /// <summary>
     /// Сервис для работы с автомобилями (бизнес-логика)
     /// </summary>
-    internal class CarServicecs : ICarService
+    public class CarService : ICarService
     {
         private readonly IStorage storage;
 
@@ -73,7 +74,7 @@ namespace DataGridView.Services
             var statistics = new CarStatistics
             {
                 TotalCars = cars.Count,
-                LowFuelCars = cars.Count(c => c.CurrentFuelVolume < EntityConstants.LowFuelThreshold),
+                LowFuelCars = cars.Count(c => c.CurrentFuelVolume < AppConstants.CriticalFuelLevel),
                 TotalRentalValue = cars.Sum(c => (decimal)c.RentCostPerMinute),
                 AverageMileage = cars.Any() ? cars.Average(c => c.Mileage) : 0
             };

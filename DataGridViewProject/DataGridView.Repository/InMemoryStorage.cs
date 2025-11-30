@@ -1,5 +1,6 @@
-﻿using DataGridView.Entities.Contracts;
+﻿using DataGridView.Entities2;
 using DataGridView.Repository.Contracts;
+
 
 namespace DataGridView.Repository
 {
@@ -100,19 +101,6 @@ namespace DataGridView.Repository
         public async Task<CarModel?> GetCarByIdAsync(Guid id)
         {
             return await Task.FromResult(cars.FirstOrDefault(c => c.Id == id));
-        }
-        /// <inheritdoc/>
-        async Task<CarStatistics> ICarService.GetStatisticsAsync()
-        {
-            var cars = await GetAllCarsAsync();
-            var statistics = new CarStatistics
-            {
-                TotalCars = cars.Count,
-                LowFuelCars = cars.Count(c => c.CurrentFuelVolume < 7),
-                TotalRentalValue = cars.Sum(c => (decimal)c.RentCostPerMinute),
-                AverageMileage = cars.Any() ? cars.Average(c => c.Mileage) : 0
-            };
-            return statistics;
         }
     }
 }
