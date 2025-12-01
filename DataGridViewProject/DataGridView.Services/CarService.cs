@@ -14,17 +14,13 @@ namespace DataGridView.Services
     public class CarService : ICarService
     {
         private readonly IStorage storage;
-        private readonly ILogger<CarService> logger;
 
         /// <summary>
         /// Инициализация сервиса с хранилищем
         /// </summary>
-        public CarService(IStorage storageCar, ILogger<CarService> loggerCar = null)
+        public CarService(IStorage storageCar)
         {
             storage = storageCar;
-            logger = loggerCar;
-
-
         }
 
         /// <summary>
