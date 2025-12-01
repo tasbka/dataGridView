@@ -1,6 +1,11 @@
 ﻿using DataGridView.Entities2;
 using DataGridView.Repository.Contracts;
 using DataGridView.Services.Contracts;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Core;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 
 namespace DataGridView.Services
@@ -11,75 +16,133 @@ namespace DataGridView.Services
     public class CarService : ICarService
     {
         private readonly IStorage storage;
+        private readonly ILogger<CarService> logger;
 
         /// <summary>
         /// Инициализация сервиса с хранилищем
         /// </summary>
-        public CarService(IStorage storageCar)
+        public CarService(IStorage storageCar, ILogger<CarService> loggerCar = null)
         {
             storage = storageCar;
+            logger = loggerCar;
+
+
         }
 
         public async Task<List<CarModel>> GetAllCarsAsync()
         {
-            return await storage.GetAllCarsAsync();
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                var result = await storage.GetAllCarsAsync();
+                return result;
+            }
+            finally
+            {
+                sw.Stop();
+                var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
+                Log.Debug("ICarService.GetAllCarsAsync выполнен за {ms:F6} мс", ms);
+            }
         }
 
         public async Task AddCarAsync(CarModel car)
         {
-            // Бизнес-логика: проверка уникальности гос номера
-            var existingCars = await storage.GetAllCarsAsync();
-            if (existingCars.Any(c => c.AutoNumber.Equals(car.AutoNumber, StringComparison.OrdinalIgnoreCase)))
+            var sw = Stopwatch.StartNew();
+            try
             {
-                throw new InvalidOperationException($"Автомобиль с номером '{car.AutoNumber}' уже существует");
+                await storage.AddCarAsync(car);
             }
-
-            await storage.AddCarAsync(car);
+            finally
+            {
+                sw.Stop();
+                var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
+                Log.Debug("ICarService.AddCarAsync выполнен за {ms:F6} мс", ms);
+            }
         }
 
         public async Task UpdateCarAsync(CarModel car)
         {
-            // Бизнес-логика: проверка существования автомобиля
-            var existingCar = await storage.GetCarByIdAsync(car.Id);
-            if (existingCar == null)
+            var sw = Stopwatch.StartNew();
+            try
             {
-                throw new ArgumentException($"Автомобиль с ID '{car.Id}' не найден");
-            }
+                var existingCar = await storage.GetCarByIdAsync(car.Id);
 
-            await storage.UpdateCarAsync(car);
+                if (existingCar == null)
+                {
+                    return;
+                }
+
+                existingCar.CarMake = car.CarMake;
+                existingCar.AutoNumber = car.AutoNumber;
+                existingCar.Mileage = car.Mileage;
+                existingCar.FuelConsumption = car.FuelConsumption;
+                existingCar.CurrentFuelVolume = car.CurrentFuelVolume;
+                existingCar.RentCostPerMinute = car.RentCostPerMinute;
+
+                await storage.UpdateCarAsync(existingCar);
+            }
+            finally
+            {
+                sw.Stop();
+                var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
+                Log.Debug("ICarService.UpdateCarAsync выполнен за {ms:F6} мс", ms);
+            }
         }
 
         public async Task DeleteCarAsync(Guid id)
         {
-            // Бизнес-логика: проверка существования автомобиля
-            var existingCar = await storage.GetCarByIdAsync(id);
-            if (existingCar == null)
+            var sw = Stopwatch.StartNew();
+            try
             {
-                throw new ArgumentException($"Автомобиль с ID '{id}' не найден");
+                await storage.DeleteCarAsync(id);
             }
-
-            await storage.DeleteCarAsync(id);
+            finally
+            {
+                sw.Stop();
+                var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
+                Log.Debug("ICarService.DeleteCarAsync выполнен за {ms:F6} мс", ms);
+            }
         }
 
         public async Task<CarModel?> GetCarByIdAsync(Guid id)
         {
-            return await storage.GetCarByIdAsync(id);
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                var result = await storage.GetCarByIdAsync(id);
+                return result;
+            }
+            finally
+            {
+                sw.Stop();
+                var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
+                Log.Debug("ICarService.GetCarByIdAsync выполнен за {ms:F6} мс", ms);
+            }
         }
 
         public async Task<CarStatistics> GetStatisticsAsync()
         {
-            var cars = await storage.GetAllCarsAsync();
-
-            // Бизнес-логика расчета статистики
-            var statistics = new CarStatistics
+            var sw = Stopwatch.StartNew();
+            try
             {
-                TotalCars = cars.Count,
-                LowFuelCars = cars.Count(c => c.CurrentFuelVolume < AppConstants.CriticalFuelLevel),
-                TotalRentalValue = cars.Sum(c => (decimal)c.RentCostPerMinute),
-                AverageMileage = cars.Any() ? cars.Average(c => c.Mileage) : 0
-            };
+                var cars = await storage.GetAllCarsAsync();
 
-            return statistics;
+                var statistics = new CarStatistics
+                {
+                    TotalCars = cars.Count,
+                    LowFuelCars = cars.Count(c => c.CurrentFuelVolume < AppConstants.CriticalFuelLevel),
+                    TotalRentalValue = cars.Sum(c => (decimal)c.RentCostPerMinute),
+                    AverageMileage = cars.Any() ? cars.Average(c => c.Mileage) : 0
+                };
+
+                return statistics;
+            }
+            finally
+            {
+                sw.Stop();
+                var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
+                Log.Debug("ICarService.GetStatisticsAsync выполнен за {ms:F6} мс", ms);
+            }
         }
     }
 }
