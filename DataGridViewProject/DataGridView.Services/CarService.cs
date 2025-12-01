@@ -3,9 +3,7 @@ using DataGridView.Repository.Contracts;
 using DataGridView.Services.Contracts;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Core;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 
 namespace DataGridView.Services
@@ -29,6 +27,9 @@ namespace DataGridView.Services
 
         }
 
+        /// <summary>
+        /// Получает все автомобили из системы проката
+        /// </summary>
         public async Task<List<CarModel>> GetAllCarsAsync()
         {
             var sw = Stopwatch.StartNew();
@@ -45,6 +46,9 @@ namespace DataGridView.Services
             }
         }
 
+        /// <summary>
+        /// Добавляет новый автомобиль в систему проката
+        /// </summary>
         public async Task AddCarAsync(CarModel car)
         {
             var sw = Stopwatch.StartNew();
@@ -60,6 +64,9 @@ namespace DataGridView.Services
             }
         }
 
+        /// <summary>
+        /// обновляет информацию об автомобиле в системе
+        /// </summary>
         public async Task UpdateCarAsync(CarModel car)
         {
             var sw = Stopwatch.StartNew();
@@ -89,6 +96,9 @@ namespace DataGridView.Services
             }
         }
 
+        /// <summary>
+        /// Удаляет автомобиль из системы по его ид
+        /// </summary>
         public async Task DeleteCarAsync(Guid id)
         {
             var sw = Stopwatch.StartNew();
@@ -104,6 +114,9 @@ namespace DataGridView.Services
             }
         }
 
+        /// <summary>
+        /// Получает автомобиль по его уникальному ид
+        /// </summary>
         public async Task<CarModel?> GetCarByIdAsync(Guid id)
         {
             var sw = Stopwatch.StartNew();
@@ -120,6 +133,9 @@ namespace DataGridView.Services
             }
         }
 
+        /// <summary>
+        /// Рассчитывает статистику по всем автомобилям в системе проката
+        /// </summary>
         public async Task<CarStatistics> GetStatisticsAsync()
         {
             var sw = Stopwatch.StartNew();

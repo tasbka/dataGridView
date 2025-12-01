@@ -52,20 +52,26 @@ namespace DataGridView.Repository
             ];
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Получает все автомобили из хранилища
+        /// </summary>
         public async Task<List<CarModel>> GetAllCarsAsync()
         {
             return await Task.FromResult(cars);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Добавляет новый автомобиль в хранилище
+        /// </summary>
         public async Task AddCarAsync(CarModel car)
         {
             cars.Add(car);
             await Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Обновляет существующий автомобиль в хранилище
+        /// </summary>
         public async Task UpdateCarAsync(CarModel car)
         {
             var existingCar = cars.FirstOrDefault(c => c.Id == car.Id);
@@ -84,7 +90,9 @@ namespace DataGridView.Repository
             await Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Удаляет автомобиль из хранилища по его ид
+        /// </summary>
         public async Task DeleteCarAsync(Guid id)
         {
             var existingCar = cars.FirstOrDefault(c => c.Id == id);
@@ -97,7 +105,9 @@ namespace DataGridView.Repository
             await Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Находит автомобиль в хранилище по его ид
+        /// </summary>
         public async Task<CarModel?> GetCarByIdAsync(Guid id)
         {
             return await Task.FromResult(cars.FirstOrDefault(c => c.Id == id));
