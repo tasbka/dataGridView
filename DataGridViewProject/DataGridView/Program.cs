@@ -4,6 +4,8 @@ using Serilog;
 using DataGridView.Services.Contracts;
 using DataGridView.Repository.Contracts;
 using DataGridView.Repository;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DataGridView.WinForms
 {
@@ -31,12 +33,23 @@ namespace DataGridView.WinForms
             try
             {
                 Log.Information("Сервис автомобилей инициализирован");
+
+                // Создание фабрики логгеров Microsoft.Extensions.Logging
+                var serviceCollection = new ServiceCollection()
+                    .AddLogging(builder =>
+                    {
+                        builder.ClearProviders();
+                        builder.AddSerilog(dispose: true); 
+                    });
+
+                var serviceProvider = serviceCollection.BuildServiceProvider();
+                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+
                 ApplicationConfiguration.Initialize();
                 IStorage storage = new InMemoryStorage();
-                ICarService carService = new CarService(storage);
-                var mainForm = new MainForm(carService);
+                ICarService carService = new CarService(storage, loggerFactory);
 
-                Application.Run(mainForm);
+                Application.Run(new MainForm(carService));
             }
             catch (Exception ex)
             {

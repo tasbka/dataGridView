@@ -4,6 +4,7 @@ using DataGridView.Repository.Contracts;
 using DataGridView.Services;
 using DataGridView.Services.Contracts;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -16,11 +17,20 @@ namespace DataGridView.Service.Tests
     {
         private readonly Mock<IStorage> storageMock;
         private readonly ICarService carService;
+        private readonly Mock<ILoggerFactory> loggerFactoryMock;
+        private readonly Mock<ILogger<CarService>> loggerMock;
 
         public CarServiceTests()
         {
             storageMock = new Mock<IStorage>();
-            carService = new CarService(storageMock.Object);
+            loggerMock = new Mock<ILogger<CarService>>();
+            loggerFactoryMock = new Mock<ILoggerFactory>();
+
+            loggerFactoryMock
+            .Setup(x => x.CreateLogger<CarService>())
+            .Returns(loggerMock.Object);
+
+            carService = new CarService(storageMock.Object, loggerFactoryMock.Object);
         }
         /// <summary>
         /// Проверяет, что метод GetAllCarsAsync возвращает все автомобили

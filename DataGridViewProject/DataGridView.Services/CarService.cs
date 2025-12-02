@@ -3,6 +3,7 @@ using DataGridView.Repository.Contracts;
 using DataGridView.Services.Contracts;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Core;
 using System.Diagnostics;
 
 
@@ -14,13 +15,15 @@ namespace DataGridView.Services
     public class CarService : ICarService
     {
         private readonly IStorage storage;
+        private readonly ILogger<CarService>? logger;
 
         /// <summary>
         /// Инициализация сервиса с хранилищем
         /// </summary>
-        public CarService(IStorage storageCar)
+        public CarService(IStorage storageCar, ILoggerFactory loggerFactory)
         {
             storage = storageCar;
+            logger = loggerFactory?.CreateLogger<CarService>();
         }
 
         /// <summary>
@@ -31,14 +34,16 @@ namespace DataGridView.Services
             var sw = Stopwatch.StartNew();
             try
             {
+                logger?.LogDebug("Начало получения всех автомобилей");
                 var result = await storage.GetAllCarsAsync();
+                logger?.LogDebug("Получено {Count} автомобилей", result.Count);
                 return result;
             }
             finally
             {
                 sw.Stop();
                 var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-                Log.Debug("ICarService.GetAllCarsAsync выполнен за {ms:F6} мс", ms);
+                logger?.LogDebug("ICarService.GetAllCarsAsync выполнен за {ms:F6} мс", ms);
             }
         }
 
@@ -50,13 +55,15 @@ namespace DataGridView.Services
             var sw = Stopwatch.StartNew();
             try
             {
+                logger?.LogInformation("Добавление автомобиля с номером {AutoNumber}", car.AutoNumber);
                 await storage.AddCarAsync(car);
+                logger?.LogInformation("Автомобиль {AutoNumber} успешно добавлен", car.AutoNumber);
             }
             finally
             {
                 sw.Stop();
                 var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-                Log.Debug("ICarService.AddCarAsync выполнен за {ms:F6} мс", ms);
+                logger?.LogDebug("ICarService.AddCarAsync выполнен за {ms:F6} мс", ms);
             }
         }
 
@@ -68,10 +75,12 @@ namespace DataGridView.Services
             var sw = Stopwatch.StartNew();
             try
             {
+                logger?.LogDebug("Обновление автомобиля ID: {CarId}", car.Id);
                 var existingCar = await storage.GetCarByIdAsync(car.Id);
 
                 if (existingCar == null)
                 {
+                    logger?.LogWarning("Автомобиль с ID {CarId} не найден для обновления", car.Id);
                     return;
                 }
 
@@ -83,12 +92,13 @@ namespace DataGridView.Services
                 existingCar.RentCostPerMinute = car.RentCostPerMinute;
 
                 await storage.UpdateCarAsync(existingCar);
+                logger?.LogInformation("Автомобиль {AutoNumber} успешно обновлен", car.AutoNumber);
             }
             finally
             {
                 sw.Stop();
                 var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-                Log.Debug("ICarService.UpdateCarAsync выполнен за {ms:F6} мс", ms);
+                logger?.LogDebug("ICarService.UpdateCarAsync выполнен за {ms:F6} мс", ms);
             }
         }
 
@@ -100,13 +110,15 @@ namespace DataGridView.Services
             var sw = Stopwatch.StartNew();
             try
             {
+                logger?.LogDebug("Удаление автомобиля ID: {CarId}", id);
                 await storage.DeleteCarAsync(id);
+                logger?.LogInformation("Автомобиль с ID {CarId} успешно удален", id);
             }
             finally
             {
                 sw.Stop();
                 var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-                Log.Debug("ICarService.DeleteCarAsync выполнен за {ms:F6} мс", ms);
+                logger?.LogDebug("ICarService.DeleteCarAsync выполнен за {ms:F6} мс", ms);
             }
         }
 
@@ -118,14 +130,16 @@ namespace DataGridView.Services
             var sw = Stopwatch.StartNew();
             try
             {
+                logger?.LogDebug("Поиск автомобиля по ID: {CarId}", id);
                 var result = await storage.GetCarByIdAsync(id);
+                logger?.LogDebug("Автомобиль с ID {CarId} найден: {AutoNumber}", id, result.AutoNumber);
                 return result;
             }
             finally
             {
                 sw.Stop();
                 var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-                Log.Debug("ICarService.GetCarByIdAsync выполнен за {ms:F6} мс", ms);
+                logger?.LogDebug("ICarService.GetCarByIdAsync выполнен за {ms:F6} мс", ms);
             }
         }
 
@@ -137,6 +151,7 @@ namespace DataGridView.Services
             var sw = Stopwatch.StartNew();
             try
             {
+                logger?.LogDebug("Расчет статистики по автомобилям");
                 var cars = await storage.GetAllCarsAsync();
 
                 var statistics = new CarStatistics
@@ -153,7 +168,7 @@ namespace DataGridView.Services
             {
                 sw.Stop();
                 var ms = sw.ElapsedTicks * 1000.0 / Stopwatch.Frequency;
-                Log.Debug("ICarService.GetStatisticsAsync выполнен за {ms:F6} мс", ms);
+                logger?.LogDebug("ICarService.GetStatisticsAsync выполнен за {ms:F6} мс", ms);
             }
         }
     }
