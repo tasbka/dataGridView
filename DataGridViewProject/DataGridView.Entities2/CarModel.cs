@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataGridView.Entities.Models
+namespace DataGridView.Entities2
 {
     /// <summary>
     /// Модель авто
@@ -82,5 +82,4 @@ namespace DataGridView.Entities.Models
             };
         }
     }
-
 }

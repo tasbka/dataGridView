@@ -1,4 +1,4 @@
-﻿namespace Services.Contracts
+﻿namespace DataGridView.Services.Contracts
 {
     /// <summary>
     /// Статистика по автомобилям

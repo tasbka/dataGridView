@@ -1,20 +1,20 @@
-﻿using DataGridView.Entities.Models;
-using DataGridView.Services.Contracts;
-using Services.Contracts;
+﻿using DataGridView.Entities2;
+using DataGridView.Repository.Contracts;
 
-namespace DataGridView.Services
+
+namespace DataGridView.Repository
 {
     /// <summary>
-    /// Сервис для доступа к автомобилям, хранящимся в памяти
+    /// In-memory реализация хранилища автомобилей
     /// </summary>
-    public class CarService : ICarService
+    public class InMemoryStorage : IStorage
     {
         private readonly List<CarModel> cars;
 
         /// <summary>
         /// Инициализация экземпляра InMemoryStorage
         /// </summary>
-        public CarService()
+        public InMemoryStorage()
         {
             // Начальные данные
             cars =
@@ -52,18 +52,27 @@ namespace DataGridView.Services
             ];
         }
 
-        /// <inheritdoc/>
-        public async Task<List<CarModel>> GetAllCarsAsync() => await Task.FromResult(cars);
+        /// <summary>
+        /// Получает все автомобили из хранилища
+        /// </summary>
+        public async Task<List<CarModel>> GetAllCarsAsync()
+        {
+            return await Task.FromResult(cars);
+        }
 
-        /// <inheritdoc/>
-        async Task ICarService.AddCarAsync(CarModel car)
+        /// <summary>
+        /// Добавляет новый автомобиль в хранилище
+        /// </summary>
+        public async Task AddCarAsync(CarModel car)
         {
             cars.Add(car);
             await Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
-        async Task ICarService.UpdateCarAsync(CarModel car)
+        /// <summary>
+        /// Обновляет существующий автомобиль в хранилище
+        /// </summary>
+        public async Task UpdateCarAsync(CarModel car)
         {
             var existingCar = cars.FirstOrDefault(c => c.Id == car.Id);
             if (existingCar == null)
@@ -81,8 +90,10 @@ namespace DataGridView.Services
             await Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
-        async Task ICarService.DeleteCarAsync(Guid id)
+        /// <summary>
+        /// Удаляет автомобиль из хранилища по его ид
+        /// </summary>
+        public async Task DeleteCarAsync(Guid id)
         {
             var existingCar = cars.FirstOrDefault(c => c.Id == id);
             if (existingCar == null)
@@ -94,21 +105,12 @@ namespace DataGridView.Services
             await Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
-        async Task<CarModel?> ICarService.GetCarByIdAsync(Guid id) => await Task.FromResult(cars.FirstOrDefault(c => c.Id == id));
-
-        /// <inheritdoc/>
-        async Task<CarStatistics> ICarService.GetStatisticsAsync()
+        /// <summary>
+        /// Находит автомобиль в хранилище по его ид
+        /// </summary>
+        public async Task<CarModel?> GetCarByIdAsync(Guid id)
         {
-            var cars = await GetAllCarsAsync();
-            var statistics = new CarStatistics
-            {
-                TotalCars = cars.Count,
-                LowFuelCars = cars.Count(c => c.CurrentFuelVolume < 7),
-                TotalRentalValue = cars.Sum(c => (decimal)c.RentCostPerMinute),
-                AverageMileage = cars.Any() ? cars.Average(c => c.Mileage) : 0
-            };
-            return statistics;
+            return await Task.FromResult(cars.FirstOrDefault(c => c.Id == id));
         }
     }
 }

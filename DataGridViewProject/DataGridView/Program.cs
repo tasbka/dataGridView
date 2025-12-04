@@ -1,23 +1,43 @@
-﻿using dataGridView;
-using DataGridView.Services;
-using DataGridView.Services.Contracts;
+﻿using DataGridView.Services;
+using dataGridView;
+using Serilog;
+using DataGridView.Repository;
+using Microsoft.Extensions.Logging;
 
 namespace DataGridView.WinForms
 {
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
+           
 
-            ICarService carService = new CarService();
+              using var log = new LoggerConfiguration()
+             .MinimumLevel.Debug()
+             .WriteTo.Debug()
+             .WriteTo.File("logs/log-.txt",
+             rollingInterval: RollingInterval.Day,
+             outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+        .WriteTo.Seq(serverUrl: "http://localhost:5341",
+          apiKey: "mU3uCMlptCg9Av0xt2ZX")
+        .CreateLogger();
+
+            // Создание фабрики логгеров Microsoft.Extensions.Logging
+            using var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddSerilog(log);
+            });
+
+            var storage = new InMemoryStorage();
+            var carService = new CarService(storage, loggerFactory);
+
+            ApplicationConfiguration.Initialize();
             Application.Run(new MainForm(carService));
+        
         }
     }
 }
