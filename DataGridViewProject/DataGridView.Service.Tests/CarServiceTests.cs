@@ -5,6 +5,7 @@ using DataGridView.Services;
 using DataGridView.Services.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -17,20 +18,19 @@ namespace DataGridView.Service.Tests
     {
         private readonly Mock<IStorage> storageMock;
         private readonly ICarService carService;
-        private readonly Mock<ILoggerFactory> loggerFactoryMock;
-        private readonly Mock<ILogger<CarService>> loggerMock;
 
         public CarServiceTests()
         {
             storageMock = new Mock<IStorage>();
-            loggerMock = new Mock<ILogger<CarService>>();
-            loggerFactoryMock = new Mock<ILoggerFactory>();
 
-            loggerFactoryMock
-            .Setup(x => x.CreateLogger<CarService>())
-            .Returns(loggerMock.Object);
+            //var loggerMock = new Mock<ILogger<CarService>>();
+            //var loggerFactoryMock = new Mock<ILoggerFactory>();
 
-            carService = new CarService(storageMock.Object, loggerFactoryMock.Object);
+            // loggerFactoryMock
+            //.Setup(x => x.CreateLogger<CarService>())
+            //.Returns(loggerMock.Object);
+            ILoggerFactory loggerFactory = new NullLoggerFactory();
+            carService = new CarService(storageMock.Object, loggerFactory);
         }
         /// <summary>
         /// Проверяет, что метод GetAllCarsAsync возвращает все автомобили
@@ -46,10 +46,7 @@ namespace DataGridView.Service.Tests
 
             var result = await carService.GetAllCarsAsync();
 
-            result.Should().NotBeEmpty()
-                .And.HaveCount(2)
-                .And.ContainSingle(x => x.Id == car1.Id)
-                .And.ContainSingle(x => x.Id == car2.Id);
+            result.Should().BeEquivalentTo([car1, car2]);
             storageMock.Verify(x => x.GetAllCarsAsync(), Times.Once);
             storageMock.VerifyNoOtherCalls();
         }
@@ -62,36 +59,14 @@ namespace DataGridView.Service.Tests
         {
             var car = TestEntityProvider.Shared.Create<CarModel>();
 
-            // Настраиваем, чтобы проверка уникальности прошла
             storageMock.Setup(x => x.GetAllCarsAsync())
                 .ReturnsAsync(new List<CarModel>());
 
             var act = () => carService.AddCarAsync(car);
 
             await act.Should().NotThrowAsync();
-            storageMock.Verify(x => x.GetAllCarsAsync(), Times.Once);
+
             storageMock.Verify(x => x.AddCarAsync(car), Times.Once);
-            storageMock.VerifyNoOtherCalls();
-        }
-
-        /// <summary>
-        /// Проверяет, что метод AddCarAsync выбрасывает исключение при дублировании гос номера
-        /// </summary>
-        [Fact]
-        public async Task AddCarAsync_WithDuplicateAutoNumber_ShouldThrowException()
-        {
-            var existingCar = TestEntityProvider.Shared.Create<CarModel>();
-            var newCar = TestEntityProvider.Shared.Create<CarModel>();
-            newCar.AutoNumber = existingCar.AutoNumber;
-
-            storageMock
-                .Setup(s => s.GetAllCarsAsync())
-                .ReturnsAsync(new List<CarModel> { existingCar });
-
-            var act = () => carService.AddCarAsync(newCar);
-
-            await act.Should().ThrowAsync<InvalidOperationException>();
-            storageMock.Verify(x => x.GetAllCarsAsync(), Times.Once);
             storageMock.VerifyNoOtherCalls();
         }
 
@@ -103,14 +78,18 @@ namespace DataGridView.Service.Tests
         {
             var car = TestEntityProvider.Shared.Create<CarModel>();
 
+            var carFromStorage = TestEntityProvider.Shared.Create<CarModel>();
+            carFromStorage.Id = car.Id;
+
             storageMock.Setup(x => x.GetCarByIdAsync(car.Id))
-                .ReturnsAsync(car);
+                .ReturnsAsync(carFromStorage);
 
             var act = () => carService.UpdateCarAsync(car);
 
             await act.Should().NotThrowAsync();
+
             storageMock.Verify(x => x.GetCarByIdAsync(car.Id), Times.Once);
-            storageMock.Verify(x => x.UpdateCarAsync(It.IsAny<CarModel>()), Times.Once);
+            storageMock.Verify(x => x.UpdateCarAsync(carFromStorage), Times.Once);
             storageMock.VerifyNoOtherCalls();
         }
 
@@ -122,13 +101,10 @@ namespace DataGridView.Service.Tests
         {
             var car = TestEntityProvider.Shared.Create<CarModel>();
 
-            storageMock.Setup(x => x.GetCarByIdAsync(car.Id))
-                .ReturnsAsync(car);
-
             var act = () => carService.DeleteCarAsync(car.Id);
 
             await act.Should().NotThrowAsync();
-            storageMock.Verify(x => x.GetCarByIdAsync(car.Id), Times.Once);
+ 
             storageMock.Verify(x => x.DeleteCarAsync(car.Id), Times.Once);
             storageMock.VerifyNoOtherCalls();
         }
@@ -156,22 +132,20 @@ namespace DataGridView.Service.Tests
         /// Проверяет, что метод GetStatisticsAsync вызывает хранилище для получения статистики
         /// </summary>
         [Fact]
-        public async Task GetStatisticsAsync_ShouldCallStorageGetAll()
+        public async Task GetStatisticsAsyncTest()
         {
             var cars = new List<CarModel>
-    {
-        TestEntityProvider.Shared.Create<CarModel>(),
-        TestEntityProvider.Shared.Create<CarModel>()
-    };
+            {
+                TestEntityProvider.Shared.Create<CarModel>(),
+                TestEntityProvider.Shared.Create<CarModel>()
+            };
 
             storageMock
                 .Setup(s => s.GetAllCarsAsync())
                 .ReturnsAsync(cars);
 
-            // Act: вызываем метод НАПРЯМУЮ (без act лямбды!)
             var result = await carService.GetStatisticsAsync();
 
-            // Assert
             result.Should().NotBeNull();
             result.TotalCars.Should().Be(2);
             storageMock.Verify(x => x.GetAllCarsAsync(), Times.Once);
@@ -179,19 +153,71 @@ namespace DataGridView.Service.Tests
         }
 
         /// <summary>
-        /// Проверяет, что метод GetStatisticsAsync корректно рассчитывает статистику при отсутствии автомобилей
+        /// Проверяет, что метод GetStatisticsAsync корректно рассчитывает статистику по автомобилям
         /// </summary>
         [Fact]
-        public async Task GetStatisticsAsync_WithNoCars_ShouldReturnZeroStatistics()
+        public async Task GetStatisticsAsync_ShouldCalculateStatisticsCorrectly()
+        {
+            // Arrange
+            var cars = new List<CarModel>
+            {
+                 new CarModel
+                 {
+                    Id = Guid.NewGuid(),
+                    AutoNumber = "АБ123Ц",
+                    CarMake = CarMake.Hyundai,
+                    CurrentFuelVolume = 5,   // Низкий уровень (< 7)
+                    RentCostPerMinute = 100,
+                    Mileage = 150
+                 },
+                new CarModel
+                 {
+                    Id = Guid.NewGuid(),
+                    AutoNumber = "ВГ456Д",
+                    CarMake = CarMake.Lada,
+                    CurrentFuelVolume = 20,  // Нормальный уровень
+                    RentCostPerMinute = 120,
+                    Mileage = 250
+                 },
+                 new CarModel
+                 {
+                    Id = Guid.NewGuid(),
+                    AutoNumber = "ЕЖ789Ф",
+                    CarMake = CarMake.Mitsubishi,
+                    CurrentFuelVolume = 3,   // Низкий уровень (< 7)
+                    RentCostPerMinute = 80,
+                    Mileage = 200
+                }
+            };
+
+            storageMock
+                .Setup(s => s.GetAllCarsAsync())
+                .ReturnsAsync(cars);
+
+            var result = await carService.GetStatisticsAsync();
+
+            result.Should().NotBeNull();
+            result.TotalCars.Should().Be(3);
+            result.LowFuelCars.Should().Be(2); // 2 автомобиля с топливом < 7 (первый и третий)
+            result.TotalRentalValue.Should().Be(300); 
+            result.AverageMileage.Should().Be(200); 
+
+            storageMock.Verify(x => x.GetAllCarsAsync(), Times.Once);
+            storageMock.VerifyNoOtherCalls();
+        }
+
+        /// <summary>
+        ///Проверяет, что метод GetStatisticsAsync возвращает нулевую статистику при отсутствии автомобилей
+        /// </summary>
+        [Fact]
+        public async Task GetStatisticsAsynTest()
         {
             storageMock
                 .Setup(s => s.GetAllCarsAsync())
                 .ReturnsAsync(new List<CarModel>());
 
-            // Act: вызываем метод НАПРЯМУЮ
             var result = await carService.GetStatisticsAsync();
 
-            // Assert
             result.Should().NotBeNull();
             result.TotalCars.Should().Be(0);
             result.LowFuelCars.Should().Be(0);

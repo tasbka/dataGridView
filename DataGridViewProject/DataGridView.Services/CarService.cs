@@ -2,8 +2,6 @@
 using DataGridView.Repository.Contracts;
 using DataGridView.Services.Contracts;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Core;
 using System.Diagnostics;
 
 
