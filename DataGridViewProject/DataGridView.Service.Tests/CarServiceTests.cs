@@ -23,12 +23,6 @@ namespace DataGridView.Service.Tests
         {
             storageMock = new Mock<IStorage>();
 
-            //var loggerMock = new Mock<ILogger<CarService>>();
-            //var loggerFactoryMock = new Mock<ILoggerFactory>();
-
-            // loggerFactoryMock
-            //.Setup(x => x.CreateLogger<CarService>())
-            //.Returns(loggerMock.Object);
             ILoggerFactory loggerFactory = new NullLoggerFactory();
             carService = new CarService(storageMock.Object, loggerFactory);
         }
@@ -156,7 +150,7 @@ namespace DataGridView.Service.Tests
         /// Проверяет, что метод GetStatisticsAsync корректно рассчитывает статистику по автомобилям
         /// </summary>
         [Fact]
-        public async Task GetStatisticsAsync_ShouldCalculateStatisticsCorrectly()
+        public async Task GetStatisticsShouldWork()
         {
             // Arrange
             var cars = new List<CarModel>
@@ -210,7 +204,7 @@ namespace DataGridView.Service.Tests
         ///Проверяет, что метод GetStatisticsAsync возвращает нулевую статистику при отсутствии автомобилей
         /// </summary>
         [Fact]
-        public async Task GetStatisticsAsynTest()
+        public async Task GetStatisticsShouldWorkForEmpty()
         {
             storageMock
                 .Setup(s => s.GetAllCarsAsync())

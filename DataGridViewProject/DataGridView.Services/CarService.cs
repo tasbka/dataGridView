@@ -13,7 +13,9 @@ namespace DataGridView.Services
     public class CarService : ICarService
     {
         private readonly IStorage storage;
-        private readonly ILogger<CarService>? logger;
+        //private readonly ILogger<CarService>? logger;
+        private readonly ILogger logger;
+
 
         /// <summary>
         /// Инициализация сервиса с хранилищем
