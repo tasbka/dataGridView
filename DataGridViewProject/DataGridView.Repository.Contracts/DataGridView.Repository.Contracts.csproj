@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataGridView.Entities2\DataGridView.Entities2.csproj" />
-    <ProjectReference Include="..\DataGridView.Services.Contracts\DataGridView.Services.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

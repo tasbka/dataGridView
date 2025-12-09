@@ -34,7 +34,7 @@ namespace DataGridView.WinForms
                 builder.AddSerilog(log);
             });
 
-            IStorage storage = new RentalDatabaseStorage();
+            var storage = new RentalDatabaseStorage();
             var carService = new CarService(storage, loggerFactory);
 
             ApplicationConfiguration.Initialize();

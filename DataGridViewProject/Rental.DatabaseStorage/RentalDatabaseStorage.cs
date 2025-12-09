@@ -25,7 +25,7 @@ namespace Rental.DatabaseStorage
         public async Task AddCarAsync(CarModel car)
         {
             using var database = new RentalDatabaseContext();
-            await database.Cars.AddAsync(car);
+            database.Cars.Add(car);
             await database.SaveChangesAsync();
         }
 
