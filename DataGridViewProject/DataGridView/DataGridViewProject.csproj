@@ -21,6 +21,7 @@
 	  <ProjectReference Include="..\DataGridView.Repository\DataGridView.Repository.csproj" />
 	  <ProjectReference Include="..\DataGridView.Services.Contracts\DataGridView.Services.Contracts.csproj" />
 	  <ProjectReference Include="..\DataGridView.Services\DataGridView.Services.csproj" />
+	  <ProjectReference Include="..\Rental.DatabaseStorage\Rental.DatabaseStorage.csproj" />
   </ItemGroup>
 
   <ItemGroup>
