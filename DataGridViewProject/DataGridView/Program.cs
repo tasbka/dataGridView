@@ -3,6 +3,8 @@ using dataGridView;
 using Serilog;
 using DataGridView.Repository;
 using Microsoft.Extensions.Logging;
+using DataGridView.Repository.Contracts;
+using Rental.DatabaseStorage;
 
 namespace DataGridView.WinForms
 {
@@ -32,7 +34,7 @@ namespace DataGridView.WinForms
                 builder.AddSerilog(log);
             });
 
-            var storage = new InMemoryStorage();
+            IStorage storage = new RentalDatabaseStorage();
             var carService = new CarService(storage, loggerFactory);
 
             ApplicationConfiguration.Initialize();
