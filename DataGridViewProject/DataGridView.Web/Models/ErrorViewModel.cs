@@ -1,5 +1,8 @@
-namespace DataGridView.Web.Models
+﻿namespace DataGridView.Web.Models
 {
+    /// <summary>
+    /// Модель отображения ошибки
+    /// </summary>
     public class ErrorViewModel
     {
         public string? RequestId { get; set; }

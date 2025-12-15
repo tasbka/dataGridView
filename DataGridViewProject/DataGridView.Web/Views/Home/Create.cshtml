@@ -1,0 +1,84 @@
+﻿@using DataGridView.Entities2
+@model DataGridView.Web.Models.CarEditViewModel
+
+@{
+    ViewData["Title"] = "Добавить автомобиль";
+}
+
+<div class="container mt-4">
+    <h1>➕ Добавить автомобиль</h1>
+    <hr />
+
+    <form asp-action="Create" method="post" class="mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="CarMake" class="form-label">Марка автомобиля</label>
+                    <select asp-for="CarMake" 
+                            asp-items="Html.GetEnumSelectList<CarMake>()"
+                            class="form-select">
+                        <option value="">Выберите марку</option>
+                    </select>
+                    <span asp-validation-for="CarMake" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="AutoNumber" class="form-label">Государственный номер</label>
+                    <input asp-for="AutoNumber" class="form-control" placeholder="А123БС" />
+                    <div class="form-text">Формат: А123БС</div>
+                    <span asp-validation-for="AutoNumber" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Mileage" class="form-label">Пробег (км)</label>
+                    <input asp-for="Mileage" class="form-control" type="number" step="1" min="1" max="1000000" />
+                    <span asp-validation-for="Mileage" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="FuelConsumption" class="form-label">Расход топлива (л/час)</label>
+                    <input asp-for="FuelConsumption" class="form-control" type="number" step="1" min="1" max="100" />
+                    <span asp-validation-for="FuelConsumption" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="CurrentFuelVolume" class="form-label">Текущий объем топлива (л)</label>
+                    <input asp-for="CurrentFuelVolume" class="form-control" type="number" step="1" min="1" max="200" />
+                    <div class="form-text">Критический уровень: менее 7 литров</div>
+                    <span asp-validation-for="CurrentFuelVolume" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="RentCostPerMinute" class="form-label">Стоимость аренды (руб/мин)</label>
+                    <input asp-for="RentCostPerMinute" class="form-control" type="number" step="1" min="1" max="1000" />
+                    <span asp-validation-for="RentCostPerMinute" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">Добавить автомобиль</button>
+            <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
