@@ -1,3 +1,5 @@
+﻿using DataGridView.Services;
+using DataGridView.Services.Contracts;
 using DataGridView.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,16 +8,31 @@ namespace DataGridView.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ICarService _carService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICarService carService, ILogger<HomeController> logger)
         {
+            _carService = carService;
             _logger = logger;
         }
 
-        public IActionResult Index()
+
+        /// <summary>
+        /// Отображает главную страницу со списком автомобилей и статистикой
+        /// </summary>
+        public async Task <IActionResult> Index()
         {
-            return View();
+            var cars = await _carService.GetAllCarsAsync();
+            var statistics = await _carService.GetStatisticsAsync();
+
+            var model = new IndexViewModel
+            {
+                Cars = cars,
+                Statistics = statistics
+            };
+
+            return View(model);
         }
 
         public IActionResult Privacy()
