@@ -20,6 +20,7 @@ namespace dataGridView
         public MainForm(ICarService carService)
         {
             InitializeComponent();
+            dataGridViewCar.AllowUserToAddRows = false;
             carServicePr = carService;
 
             CarMakeCol1.DataPropertyName = nameof(CarModel.CarMake);
