@@ -1,13 +1,11 @@
-﻿using DataGridView.Entities.Models;
-using Services.Contracts;
-using System.Threading.Channels;
+﻿using DataGridView.Entities2;
 
-namespace DataGridView.Services.Contracts
+namespace DataGridView.Repository.Contracts
 {
     /// <summary>
-    /// Интерфейс сервиса для работы с автомобилями
+    /// Интерфейс хранилища для работы с автомобилями
     /// </summary>
-    public interface ICarService
+    public interface IStorage
     {
         /// <summary>
         /// Получить все автомобили
@@ -33,10 +31,5 @@ namespace DataGridView.Services.Contracts
         /// Найти автомобиль по ID
         /// </summary>
         Task<CarModel?> GetCarByIdAsync(Guid id);
-
-        /// <summary>
-        /// Получить статистику по автомобилям в прокате
-        /// </summary>
-        Task<CarStatistics> GetStatisticsAsync();
     }
 }

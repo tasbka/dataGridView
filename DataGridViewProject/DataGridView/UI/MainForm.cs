@@ -1,5 +1,5 @@
 ﻿using dataGridView.Forms;
-using DataGridView.Entities.Models;
+using DataGridView.Entities2;
 using DataGridView.Services.Contracts;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,6 +20,7 @@ namespace dataGridView
         public MainForm(ICarService carService)
         {
             InitializeComponent();
+            dataGridViewCar.AllowUserToAddRows = false;
             carServicePr = carService;
 
             CarMakeCol1.DataPropertyName = nameof(CarModel.CarMake);
@@ -53,15 +54,15 @@ namespace dataGridView
         /// </summary>
         private async void toolStripButtonEdit_Click(object sender, EventArgs e)
         {
-            if (dataGridViewCar.SelectedRows.Count == 0)
+            if (dataGridViewCar.CurrentCell == null)
             {
                 MessageBox.Show("Выберите автомобиль для редактирования!", "Внимание",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var selectedRow = dataGridViewCar.SelectedRows[0];
-            if (selectedRow?.DataBoundItem is not CarModel selectedCar)
+            var selectedRow = dataGridViewCar.Rows[dataGridViewCar.CurrentCell.RowIndex];
+            if (selectedRow.DataBoundItem is not CarModel selectedCar)
             {
                 MessageBox.Show("Не удалось получить данные автомобиля!", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -1,4 +1,4 @@
-﻿namespace DataGridView.Entities
+﻿namespace DataGridView.Entities2
 {
 
         /// <summary>
@@ -6,7 +6,7 @@
         /// используемые при валидации и расчётах параметров автомобиля
         /// в модели
         /// </summary>
-        internal class AppConstants
+        public class AppConstants
         {
 
             /// <summary>

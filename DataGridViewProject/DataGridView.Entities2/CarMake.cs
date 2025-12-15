@@ -1,5 +1,6 @@
-﻿namespace DataGridView.Entities.Models
+﻿namespace DataGridView.Entities2
 {
+
     /// <summary>
     /// Класс содержащий марки автомобиля
     /// </summary>
