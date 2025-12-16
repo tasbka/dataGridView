@@ -35,7 +35,7 @@ namespace DataGridView.Services
             try
             {
                 logger?.LogDebug("Начало получения всех автомобилей");
-                var result = await storage.GetAllCarsAsync();
+                var result = await storage.GetAllCarsAsync(cancellationToken);
                 logger?.LogDebug("Получено {Count} автомобилей", result.Count);
                 return result;
             }
@@ -56,7 +56,7 @@ namespace DataGridView.Services
             try
             {
                 logger?.LogInformation("Добавление автомобиля с номером {AutoNumber}", car.AutoNumber);
-                await storage.AddCarAsync(car);
+                await storage.AddCarAsync(car, cancellationToken);
                 logger?.LogInformation("Автомобиль {AutoNumber} успешно добавлен", car.AutoNumber);
             }
             finally
@@ -76,7 +76,7 @@ namespace DataGridView.Services
             try
             {
                 logger?.LogDebug("Обновление автомобиля ID: {CarId}", car.Id);
-                var existingCar = await storage.GetCarByIdAsync(car.Id);
+                var existingCar = await storage.GetCarByIdAsync(car.Id, cancellationToken);
 
                 if (existingCar == null)
                 {
@@ -91,7 +91,7 @@ namespace DataGridView.Services
                 existingCar.CurrentFuelVolume = car.CurrentFuelVolume;
                 existingCar.RentCostPerMinute = car.RentCostPerMinute;
 
-                await storage.UpdateCarAsync(existingCar);
+                await storage.UpdateCarAsync(existingCar, cancellationToken);
                 logger?.LogInformation("Автомобиль {AutoNumber} успешно обновлен", car.AutoNumber);
             }
             finally
@@ -111,7 +111,7 @@ namespace DataGridView.Services
             try
             {
                 logger?.LogDebug("Удаление автомобиля ID: {CarId}", id);
-                await storage.DeleteCarAsync(id);
+                await storage.DeleteCarAsync(id, cancellationToken);
                 logger?.LogInformation("Автомобиль с ID {CarId} успешно удален", id);
             }
             finally
@@ -131,7 +131,7 @@ namespace DataGridView.Services
             try
             {
                 logger?.LogDebug("Поиск автомобиля по ID: {CarId}", id);
-                var result = await storage.GetCarByIdAsync(id);
+                var result = await storage.GetCarByIdAsync(id, cancellationToken);
                 logger?.LogDebug("Автомобиль с ID {CarId} найден: {AutoNumber}", id, result.AutoNumber);
                 return result;
             }
@@ -152,7 +152,7 @@ namespace DataGridView.Services
             try
             {
                 logger?.LogDebug("Расчет статистики по автомобилям");
-                var cars = await storage.GetAllCarsAsync();
+                var cars = await storage.GetAllCarsAsync(cancellationToken);
 
                 var statistics = new CarStatistics
                 {
