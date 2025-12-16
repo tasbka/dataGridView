@@ -9,12 +9,10 @@ namespace DataGridView.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ICarService _carService;
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ICarService carService, ILogger<HomeController> logger)
+        public HomeController(ICarService carService)
         {
             _carService = carService;
-            _logger = logger;
         }
 
 
