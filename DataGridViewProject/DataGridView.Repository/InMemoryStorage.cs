@@ -55,7 +55,7 @@ namespace DataGridView.Repository
         /// <summary>
         /// Получает все автомобили из хранилища
         /// </summary>
-        public async Task<List<CarModel>> GetAllCarsAsync()
+        public async Task<List<CarModel>> GetAllCarsAsync(CancellationToken cancellationToken = default)
         {
             return await Task.FromResult(cars);
         }
@@ -63,7 +63,7 @@ namespace DataGridView.Repository
         /// <summary>
         /// Добавляет новый автомобиль в хранилище
         /// </summary>
-        public async Task AddCarAsync(CarModel car)
+        public async Task AddCarAsync(CarModel car, CancellationToken cancellationToken = default)
         {
             cars.Add(car);
             await Task.CompletedTask;
@@ -72,7 +72,7 @@ namespace DataGridView.Repository
         /// <summary>
         /// Обновляет существующий автомобиль в хранилище
         /// </summary>
-        public async Task UpdateCarAsync(CarModel car)
+        public async Task UpdateCarAsync(CarModel car, CancellationToken cancellationToken = default)
         {
             var existingCar = cars.FirstOrDefault(c => c.Id == car.Id);
             if (existingCar == null)
@@ -93,7 +93,7 @@ namespace DataGridView.Repository
         /// <summary>
         /// Удаляет автомобиль из хранилища по его ид
         /// </summary>
-        public async Task DeleteCarAsync(Guid id)
+        public async Task DeleteCarAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var existingCar = cars.FirstOrDefault(c => c.Id == id);
             if (existingCar == null)
@@ -108,7 +108,7 @@ namespace DataGridView.Repository
         /// <summary>
         /// Находит автомобиль в хранилище по его ид
         /// </summary>
-        public async Task<CarModel?> GetCarByIdAsync(Guid id)
+        public async Task<CarModel?> GetCarByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await Task.FromResult(cars.FirstOrDefault(c => c.Id == id));
         }

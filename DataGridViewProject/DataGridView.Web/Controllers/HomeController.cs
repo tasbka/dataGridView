@@ -1,5 +1,4 @@
 ﻿using DataGridView.Entities2;
-using DataGridView.Services;
 using DataGridView.Services.Contracts;
 using DataGridView.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,7 @@ namespace DataGridView.Web.Controllers
         /// <summary>
         /// Отображает главную страницу со списком автомобилей и статистикой
         /// </summary>
-        public async Task <IActionResult> Index()
+        public async Task <IActionResult> Index(CancellationToken cancellationToken = default)
         {
             var cars = await _carService.GetAllCarsAsync();
             var statistics = await _carService.GetStatisticsAsync();
@@ -40,7 +39,7 @@ namespace DataGridView.Web.Controllers
         /// Отображает страницу подтверждения удаления автомобиля
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
         {
             var car = await _carService.GetCarByIdAsync(id);
             if (car == null)
@@ -57,7 +56,7 @@ namespace DataGridView.Web.Controllers
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken = default)
         {
             await _carService.DeleteCarAsync(id);
             return RedirectToAction(nameof(Index));
@@ -67,7 +66,7 @@ namespace DataGridView.Web.Controllers
         /// Отображает форму редактирования автомобиля
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken = default)
         {
             var car = await _carService.GetCarByIdAsync(id);
             if (car == null)

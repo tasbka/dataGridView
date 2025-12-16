@@ -12,7 +12,7 @@ namespace Rental.DatabaseStorage
         /// <summary>
         /// Получить все автомобили из базы данных
         /// </summary>
-        public async Task<List<CarModel>> GetAllCarsAsync()
+        public async Task<List<CarModel>> GetAllCarsAsync(CancellationToken cancellationToken = default)
         {
             using var database = new RentalDatabaseContext();
             var cars = await database.Cars.AsNoTracking().ToListAsync();
@@ -22,7 +22,7 @@ namespace Rental.DatabaseStorage
         /// <summary>
         /// Добавить новый автомобиль в базу данных
         /// </summary>
-        public async Task AddCarAsync(CarModel car)
+        public async Task AddCarAsync(CarModel car, CancellationToken cancellationToken = default)
         {
             using var database = new RentalDatabaseContext();
             database.Cars.Add(car);
@@ -32,7 +32,7 @@ namespace Rental.DatabaseStorage
         /// <summary>
         /// Обновить автомобиль в бд
         /// </summary>
-        public async Task UpdateCarAsync(CarModel car)
+        public async Task UpdateCarAsync(CarModel car, CancellationToken cancellationToken = default)
         {
             using var database = new RentalDatabaseContext();
             database.Cars.Update(car);
@@ -42,7 +42,7 @@ namespace Rental.DatabaseStorage
         /// <summary>
         /// Удалить Автоммобиль по id 
         /// </summary>
-        public async Task DeleteCarAsync(Guid id)
+        public async Task DeleteCarAsync(Guid id, CancellationToken cancellationToken = default)
         {
             using var database = new RentalDatabaseContext();
             var car = await database.Cars.FindAsync(id);
@@ -56,7 +56,7 @@ namespace Rental.DatabaseStorage
         /// <summary>
         /// Найти по  id
         /// </summary>
-        public async Task<CarModel?> GetCarByIdAsync(Guid id)
+        public async Task<CarModel?> GetCarByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             using var database = new RentalDatabaseContext();
             var car = await database.Cars.FindAsync(id);
