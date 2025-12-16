@@ -29,7 +29,7 @@ namespace DataGridView.Services
         /// <summary>
         /// Получает все автомобили из системы проката
         /// </summary>
-        public async Task<List<CarModel>> GetAllCarsAsync()
+        public async Task<List<CarModel>> GetAllCarsAsync(CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
@@ -50,7 +50,7 @@ namespace DataGridView.Services
         /// <summary>
         /// Добавляет новый автомобиль в систему проката
         /// </summary>
-        public async Task AddCarAsync(CarModel car)
+        public async Task AddCarAsync(CarModel car, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
@@ -70,7 +70,7 @@ namespace DataGridView.Services
         /// <summary>
         /// обновляет информацию об автомобиле в системе
         /// </summary>
-        public async Task UpdateCarAsync(CarModel car)
+        public async Task UpdateCarAsync(CarModel car, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
@@ -105,7 +105,7 @@ namespace DataGridView.Services
         /// <summary>
         /// Удаляет автомобиль из системы по его ид
         /// </summary>
-        public async Task DeleteCarAsync(Guid id)
+        public async Task DeleteCarAsync(Guid id, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
@@ -125,7 +125,7 @@ namespace DataGridView.Services
         /// <summary>
         /// Получает автомобиль по его уникальному ид
         /// </summary>
-        public async Task<CarModel?> GetCarByIdAsync(Guid id)
+        public async Task<CarModel?> GetCarByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
@@ -146,7 +146,7 @@ namespace DataGridView.Services
         /// <summary>
         /// Рассчитывает статистику по всем автомобилям в системе проката
         /// </summary>
-        public async Task<CarStatistics> GetStatisticsAsync()
+        public async Task<CarStatistics> GetStatisticsAsync(CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try

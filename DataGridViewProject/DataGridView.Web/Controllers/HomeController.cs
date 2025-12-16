@@ -3,6 +3,7 @@ using DataGridView.Services.Contracts;
 using DataGridView.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading;
 
 namespace DataGridView.Web.Controllers
 {
@@ -19,10 +20,10 @@ namespace DataGridView.Web.Controllers
         /// <summary>
         /// Отображает главную страницу со списком автомобилей и статистикой
         /// </summary>
-        public async Task <IActionResult> Index(CancellationToken cancellationToken = default)
+        public async Task <IActionResult> Index(CancellationToken cancellationToken)
         {
-            var cars = await _carService.GetAllCarsAsync();
-            var statistics = await _carService.GetStatisticsAsync();
+            var cars = await _carService.GetAllCarsAsync(cancellationToken);
+            var statistics = await _carService.GetStatisticsAsync(cancellationToken);
 
             var model = new IndexViewModel
             {
@@ -37,9 +38,9 @@ namespace DataGridView.Web.Controllers
         /// Отображает страницу подтверждения удаления автомобиля
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken )
         {
-            var car = await _carService.GetCarByIdAsync(id);
+            var car = await _carService.GetCarByIdAsync(id, cancellationToken);
             if (car == null)
             {
                 return NotFound();
@@ -54,9 +55,9 @@ namespace DataGridView.Web.Controllers
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken)
         {
-            await _carService.DeleteCarAsync(id);
+            await _carService.DeleteCarAsync(id, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
 
@@ -64,9 +65,9 @@ namespace DataGridView.Web.Controllers
         /// Отображает форму редактирования автомобиля
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken)
         {
-            var car = await _carService.GetCarByIdAsync(id);
+            var car = await _carService.GetCarByIdAsync(id, cancellationToken);
             if (car == null)
             {
                 return NotFound();
@@ -91,7 +92,7 @@ namespace DataGridView.Web.Controllers
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CarEditViewModel model)
+        public async Task<IActionResult> Edit(CarEditViewModel model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -109,7 +110,7 @@ namespace DataGridView.Web.Controllers
                 RentCostPerMinute = model.RentCostPerMinute
             };
 
-            await _carService.UpdateCarAsync(car);
+            await _carService.UpdateCarAsync(car, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
 
@@ -128,7 +129,7 @@ namespace DataGridView.Web.Controllers
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CarEditViewModel model)
+        public async Task<IActionResult> Create(CarEditViewModel model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -147,7 +148,7 @@ namespace DataGridView.Web.Controllers
                 RentCostPerMinute = model.RentCostPerMinute
             };
 
-            await _carService.AddCarAsync(car);
+            await _carService.AddCarAsync(car, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
 

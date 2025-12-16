@@ -10,26 +10,26 @@ namespace DataGridView.Repository.Contracts
         /// <summary>
         /// Получить все автомобили
         /// </summary>
-        Task<List<CarModel>> GetAllCarsAsync(CancellationToken cancellationToken = default);
+        Task<List<CarModel>> GetAllCarsAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Добавить новый автомобиль
         /// </summary>
-        Task AddCarAsync(CarModel car, CancellationToken cancellationToken = default);
+        Task AddCarAsync(CarModel car, CancellationToken cancellationToken);
 
         /// <summary>
         /// Обновить автомобиль
         /// </summary>
-        Task UpdateCarAsync(CarModel car, CancellationToken cancellationToken = default);
+        Task UpdateCarAsync(CarModel car, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удалить автомобиль по ID
         /// </summary>
-        Task DeleteCarAsync(Guid id, CancellationToken cancellationToken = default);
+        Task DeleteCarAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Найти автомобиль по ID
         /// </summary>
-        Task<CarModel?> GetCarByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<CarModel?> GetCarByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }
