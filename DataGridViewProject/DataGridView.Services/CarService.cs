@@ -23,7 +23,7 @@ namespace DataGridView.Services
         public CarService(IStorage storageCar, ILoggerFactory loggerFactory)
         {
             storage = storageCar;
-            logger = loggerFactory?.CreateLogger<CarService>();
+            logger = loggerFactory.CreateLogger<CarService>();
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace DataGridView.Services
             {
                 logger?.LogDebug("Поиск автомобиля по ID: {CarId}", id);
                 var result = await storage.GetCarByIdAsync(id, cancellationToken);
-                logger?.LogDebug("Автомобиль с ID {CarId} найден: {AutoNumber}", id, result.AutoNumber);
+                logger?.LogDebug("Автомобиль с ID {CarId} найден: {AutoNumber}", id, result?.AutoNumber);
                 return result;
             }
             finally

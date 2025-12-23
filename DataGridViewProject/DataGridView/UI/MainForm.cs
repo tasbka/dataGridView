@@ -12,6 +12,7 @@ namespace dataGridView
     {
         private readonly ICarService carServicePr;
         private readonly BindingSource bindingSource = new();
+        private CancellationTokenSource _cancellationTokenSource;
 
         /// <summary>
         /// Инициализирует экземпляр 
@@ -22,6 +23,7 @@ namespace dataGridView
             InitializeComponent();
             dataGridViewCar.AllowUserToAddRows = false;
             carServicePr = carService;
+            _cancellationTokenSource = new CancellationTokenSource();
 
             CarMakeCol1.DataPropertyName = nameof(CarModel.CarMake);
             AutoNumberCol1.DataPropertyName = nameof(CarModel.AutoNumber);
@@ -42,7 +44,7 @@ namespace dataGridView
             var addForm = new AddCar();
             if (addForm.ShowDialog(this) == DialogResult.OK)
             {
-                await carServicePr.AddCarAsync(addForm.CurrentCar);
+                await carServicePr.AddCarAsync(addForm.CurrentCar, _cancellationTokenSource.Token);
                 await OnUpdateAsync();
                 MessageBox.Show("Автомобиль успешно добавлен!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -75,7 +77,7 @@ namespace dataGridView
             {
                 try
                 {
-                    await carServicePr.UpdateCarAsync(editForm.CurrentCar);
+                    await carServicePr.UpdateCarAsync(editForm.CurrentCar, _cancellationTokenSource.Token);
                     await OnUpdateAsync();
                     MessageBox.Show("Автомобиль успешно обновлен!", "Успех",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -109,7 +111,7 @@ namespace dataGridView
             if (MessageBox.Show($"Вы действительно желаете удалить автомобиль с номером '{car.AutoNumber}'?",
                 "Удаление автомобиля", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                await carServicePr.DeleteCarAsync(car.Id);
+                await carServicePr.DeleteCarAsync(car.Id, _cancellationTokenSource.Token);
                 await OnUpdateAsync();
                 MessageBox.Show("Автомобиль успешно удален!", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -176,7 +178,7 @@ namespace dataGridView
 
         private async Task LoadDataAsync()
         {
-            var cars = await carServicePr.GetAllCarsAsync();
+            var cars = await carServicePr.GetAllCarsAsync(_cancellationTokenSource.Token);
             bindingSource.DataSource = cars.ToList();
             dataGridViewCar.DataSource = bindingSource;
             await SetStatisticAsync();
@@ -184,7 +186,7 @@ namespace dataGridView
 
         private async Task OnUpdateAsync()
         {
-            var cars = await carServicePr.GetAllCarsAsync();
+            var cars = await carServicePr.GetAllCarsAsync(_cancellationTokenSource.Token);
             bindingSource.DataSource = cars.ToList();
             bindingSource.ResetBindings(false);
             await SetStatisticAsync();
@@ -192,7 +194,7 @@ namespace dataGridView
 
         private async Task SetStatisticAsync()
         {
-            var statistics = await carServicePr.GetStatisticsAsync();
+            var statistics = await carServicePr.GetStatisticsAsync(_cancellationTokenSource.Token);
             toolStripStatusLabelStatusCar.Text = $"Автомобили с критически низким уровнем запаса хода: {statistics.LowFuelCars}";
             toolStripStatusLabelCount.Text = $"Количество автомобилей: {statistics.TotalCars}";
         }
