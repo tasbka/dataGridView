@@ -23,19 +23,19 @@ namespace DataGridView.Services
         public CarService(IStorage storageCar, ILoggerFactory loggerFactory)
         {
             storage = storageCar;
-            logger = loggerFactory?.CreateLogger<CarService>();
+            logger = loggerFactory.CreateLogger<CarService>();
         }
 
         /// <summary>
         /// Получает все автомобили из системы проката
         /// </summary>
-        public async Task<List<CarModel>> GetAllCarsAsync()
+        public async Task<List<CarModel>> GetAllCarsAsync(CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
             {
                 logger?.LogDebug("Начало получения всех автомобилей");
-                var result = await storage.GetAllCarsAsync();
+                var result = await storage.GetAllCarsAsync(cancellationToken);
                 logger?.LogDebug("Получено {Count} автомобилей", result.Count);
                 return result;
             }
@@ -50,13 +50,13 @@ namespace DataGridView.Services
         /// <summary>
         /// Добавляет новый автомобиль в систему проката
         /// </summary>
-        public async Task AddCarAsync(CarModel car)
+        public async Task AddCarAsync(CarModel car, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
             {
                 logger?.LogInformation("Добавление автомобиля с номером {AutoNumber}", car.AutoNumber);
-                await storage.AddCarAsync(car);
+                await storage.AddCarAsync(car, cancellationToken);
                 logger?.LogInformation("Автомобиль {AutoNumber} успешно добавлен", car.AutoNumber);
             }
             finally
@@ -70,13 +70,13 @@ namespace DataGridView.Services
         /// <summary>
         /// обновляет информацию об автомобиле в системе
         /// </summary>
-        public async Task UpdateCarAsync(CarModel car)
+        public async Task UpdateCarAsync(CarModel car, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
             {
                 logger?.LogDebug("Обновление автомобиля ID: {CarId}", car.Id);
-                var existingCar = await storage.GetCarByIdAsync(car.Id);
+                var existingCar = await storage.GetCarByIdAsync(car.Id, cancellationToken);
 
                 if (existingCar == null)
                 {
@@ -91,7 +91,7 @@ namespace DataGridView.Services
                 existingCar.CurrentFuelVolume = car.CurrentFuelVolume;
                 existingCar.RentCostPerMinute = car.RentCostPerMinute;
 
-                await storage.UpdateCarAsync(existingCar);
+                await storage.UpdateCarAsync(existingCar, cancellationToken);
                 logger?.LogInformation("Автомобиль {AutoNumber} успешно обновлен", car.AutoNumber);
             }
             finally
@@ -105,13 +105,13 @@ namespace DataGridView.Services
         /// <summary>
         /// Удаляет автомобиль из системы по его ид
         /// </summary>
-        public async Task DeleteCarAsync(Guid id)
+        public async Task DeleteCarAsync(Guid id, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
             {
                 logger?.LogDebug("Удаление автомобиля ID: {CarId}", id);
-                await storage.DeleteCarAsync(id);
+                await storage.DeleteCarAsync(id, cancellationToken);
                 logger?.LogInformation("Автомобиль с ID {CarId} успешно удален", id);
             }
             finally
@@ -125,14 +125,14 @@ namespace DataGridView.Services
         /// <summary>
         /// Получает автомобиль по его уникальному ид
         /// </summary>
-        public async Task<CarModel?> GetCarByIdAsync(Guid id)
+        public async Task<CarModel?> GetCarByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
             {
                 logger?.LogDebug("Поиск автомобиля по ID: {CarId}", id);
-                var result = await storage.GetCarByIdAsync(id);
-                logger?.LogDebug("Автомобиль с ID {CarId} найден: {AutoNumber}", id, result.AutoNumber);
+                var result = await storage.GetCarByIdAsync(id, cancellationToken);
+                logger?.LogDebug("Автомобиль с ID {CarId} найден: {AutoNumber}", id, result?.AutoNumber);
                 return result;
             }
             finally
@@ -146,13 +146,13 @@ namespace DataGridView.Services
         /// <summary>
         /// Рассчитывает статистику по всем автомобилям в системе проката
         /// </summary>
-        public async Task<CarStatistics> GetStatisticsAsync()
+        public async Task<CarStatistics> GetStatisticsAsync(CancellationToken cancellationToken)
         {
             var sw = Stopwatch.StartNew();
             try
             {
                 logger?.LogDebug("Расчет статистики по автомобилям");
-                var cars = await storage.GetAllCarsAsync();
+                var cars = await storage.GetAllCarsAsync(cancellationToken);
 
                 var statistics = new CarStatistics
                 {
